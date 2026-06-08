@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Nissan Latio Monitor</title>
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#ffffff">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="apple-mobile-web-app-title" content="Latio Monitor">
+
+<style>
+[data-theme="light"] {
+  --bg:#ffffff;--bg2:#f5f5f3;--bg3:#eae9e5;
+  --text:#1a1a18;--text2:#666660;--text3:#a0a098;
+  --border:rgba(0,0,0,0.09);--border2:rgba(0,0,0,0.18);
+  --success:#3B6D11;--warning:#854F0B;--danger:#A32D2D;--info:#185FA5;
+  --bg-success:#EAF3DE;--bg-warning:#FAEEDA;--bg-danger:#FCEBEB;--bg-info:#E6F1FB;
+  --dark:#2C2C2A;--dark-text:#D3D1C7;
+  --sheet-overlay:rgba(0,0,0,0.45);
+}
+[data-theme="dark"] {
+  --bg:#1c1c1a;--bg2:#252523;--bg3:#2e2e2b;
+  --text:#f0efe9;--text2:#a0a098;--text3:#606058;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.16);
+  --success:#97C459;--warning:#EF9F27;--danger:#F09595;--info:#85B7EB;
+  --bg-success:#1a3d06;--bg-warning:#412402;--bg-danger:#501313;--bg-info:#042C53;
+  --dark:#D3D1C7;--dark-text:#2C2C2A;
+  --sheet-overlay:rgba(0,0,0,0.6);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;color:var(--text);overflow-x:hidden}
+.app{max-width:430px;margin:0 auto;background:var(--bg);min-height:100vh;padding-bottom:72px}
+.screen{display:none}.screen.active{display:block}
+#s-garage,#s-home,#s-hist,#s-set,#s-sesi{background:var(--bg)}
+#s-sesi{padding-bottom:80px}
+
+/* Car Header */
+.car-header{padding:14px 16px 0}
+.car-row{background:var(--bg);border:0.5px solid var(--border2);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.car-avatar{width:46px;height:46px;background:var(--bg2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.car-name{font-size:14px;font-weight:700;color:var(--text)}
+.car-sub{font-size:11px;color:var(--text2);margin-top:2px}
+.odo-pill{margin-left:auto;background:var(--dark);color:var(--dark-text);font-size:11px;font-weight:600;padding:6px 12px;border-radius:20px;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:5px}
+.odo-pill svg{width:13px;height:13px;stroke:var(--dark-text);stroke-width:1.8;fill:none}
+
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px;margin-bottom:12px}
+.stat-card{background:var(--bg2);border-radius:10px;padding:11px 13px}
+.stat-label{font-size:11px;color:var(--text2);margin-bottom:3px}
+.stat-val{font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.5px}
+.stat-val.red{color:var(--danger)}.stat-val.green{color:var(--success)}
+
+/* Tabs */
+.tab-bar{display:flex;border-bottom:0.5px solid var(--border2);padding:0 16px;margin-bottom:12px}
+.tab{padding:9px 14px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-0.5px;user-select:none;transition:color .15s}
+.tab.active{color:var(--text);border-bottom-color:var(--text);font-weight:700}
+
+/* Section */
+.section{padding:0 16px;margin-bottom:16px}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.sec-title{font-size:13px;font-weight:700;color:var(--text)}
+.sec-actions{display:flex;gap:6px}
+.btn-sm{background:transparent;border:0.5px solid var(--border2);border-radius:20px;padding:6px 12px;font-size:12px;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:4px;font-family:inherit;font-weight:500;transition:all .15s}
+.btn-sm:hover{background:var(--bg2);color:var(--text)}
+.btn-sm svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none;flex-shrink:0}
+
+/* Maint Grid */
+.maint-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.maint-card{background:var(--bg);border:0.5px solid var(--border);border-radius:14px;padding:12px;cursor:pointer;transition:all .15s;position:relative}
+.maint-card:hover{border-color:var(--border2)}.maint-card:active{transform:scale(.98)}
+.maint-card.due{border-color:#E24B4A;border-width:1px}.maint-card.soon{border-color:#EF9F27;border-width:1px}
+.maint-icon{width:22px;height:22px;margin-bottom:8px;display:flex;align-items:center;color:var(--text3)}
+.maint-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px}
+.maint-int{font-size:10px;color:var(--text2);margin-bottom:5px;line-height:1.4}
+.maint-last{font-size:10px;color:var(--text3)}
+.maint-last.ok{color:var(--success)}.maint-last.due{color:var(--danger)}.maint-last.soon{color:var(--warning)}
+.maint-del{position:absolute;top:7px;right:7px;background:var(--bg3);border:none;color:var(--text3);cursor:pointer;padding:5px;border-radius:7px;display:flex;align-items:center;justify-content:center;transition:all .15s;opacity:0.7}
+.maint-del:hover{background:var(--bg-danger);color:var(--danger);opacity:1}
+.maint-del svg{width:12px;height:12px;stroke:currentColor;stroke-width:2.2;fill:none}
+
+/* Expense */
+.exp-list{display:flex;flex-direction:column;gap:6px}
+.exp-item{background:var(--bg);border:0.5px solid var(--border);border-radius:14px;padding:10px 13px;display:flex;align-items:center;gap:10px}
+.exp-ico{width:22px;text-align:center;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.exp-ico svg{width:16px;height:16px;stroke:var(--text2);stroke-width:1.8;fill:none}
+.exp-info{flex:1;min-width:0}
+.exp-name{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.exp-date{font-size:10px;color:var(--text2)}
+.exp-amt{font-size:12px;font-weight:700;color:var(--text);flex-shrink:0}
+.del-btn{background:none;border:none;color:var(--text3);cursor:pointer;padding:4px;flex-shrink:0;border-radius:6px;transition:all .15s;display:flex;align-items:center}
+.del-btn svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none}
+.del-btn:hover{color:var(--danger);background:var(--bg-danger)}
+.empty{text-align:center;padding:28px 16px;color:var(--text3);font-size:12px}
+.empty-icon{font-size:28px;display:block;margin-bottom:8px}
+
+/* History */
+.hist-list{display:flex;flex-direction:column;gap:6px}
+.hist-item{background:var(--bg);border:0.5px solid var(--border);border-radius:14px;padding:11px 13px}
+.hist-row1{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;gap:8px}
+.hist-name{font-size:12px;font-weight:600;color:var(--text);flex:1;min-width:0;line-height:1.4}
+.hist-cost{font-size:12px;font-weight:700;color:var(--text);flex-shrink:0}
+.hist-row2{display:flex;justify-content:space-between;align-items:center}
+.hist-meta{font-size:10px;color:var(--text2);display:flex;align-items:center;gap:6px}
+.hist-odo{font-size:10px;color:var(--text2)}
+.badge{font-size:9px;padding:2px 7px;border-radius:8px;font-weight:700}
+.b-servis{background:var(--bg-info);color:var(--info)}
+.b-parkir{background:var(--bg3);color:var(--text2)}
+.b-tol{background:var(--bg-success);color:var(--success)}
+
+/* Bottom Nav */
+.bot-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--bg);border-top:0.5px solid var(--border2);display:flex;align-items:stretch;padding-bottom:env(safe-area-inset-bottom,0);z-index:50;height:66px}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:9px;font-weight:600;color:var(--text3);cursor:pointer;padding:8px 2px 6px;border:none;background:none;font-family:inherit;user-select:none;transition:color .15s;position:relative;letter-spacing:.3px;text-transform:uppercase}
+.nav-btn.active{color:var(--text)}
+.nav-btn svg{width:26px;height:26px;stroke:currentColor;stroke-width:1.6;fill:none;transition:all .15s}
+.nav-btn.active svg{stroke-width:2}
+.nav-dot{position:absolute;top:0;left:50%;transform:translateX(-50%);width:20px;height:2.5px;background:var(--text);border-radius:0 0 3px 3px;opacity:0;transition:opacity .15s}
+.nav-btn.active .nav-dot{opacity:1}
+
+/* Form */
+.form-screen{padding:0 16px 20px}
+.page-title{font-size:16px;font-weight:700;color:var(--text);padding:14px 0 12px}
+.form-label{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:.4px}
+.form-group{margin-bottom:14px}
+.form-input{width:100%;border:0.5px solid var(--border2);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--text);background:var(--bg2);font-family:inherit;outline:none;transition:all .15s}
+.form-input:focus{border-color:var(--text2);background:var(--bg)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-hint{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4}
+
+/* Chips */
+.chip-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.chip{background:var(--bg2);border:0.5px solid var(--border2);border-radius:20px;padding:6px 12px;font-size:11px;cursor:pointer;color:var(--text2);display:flex;align-items:center;gap:5px;user-select:none;font-family:inherit;font-weight:500;transition:all .15s}
+.chip.on{background:var(--dark);color:var(--dark-text);border-color:var(--dark)}
+.chip-icon{font-size:13px;line-height:1}
+
+/* Toggle */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);margin-bottom:14px}
+.toggle{width:44px;height:26px;border-radius:13px;background:var(--bg3);cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;border:0.5px solid var(--border2)}
+.toggle.on{background:var(--dark);border-color:var(--dark)}
+.toggle::after{content:'';width:20px;height:20px;background:white;border-radius:50%;position:absolute;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.toggle.on::after{left:20px}
+.toggle-label{font-size:13px;color:var(--text);display:flex;align-items:center;gap:7px;font-weight:500}
+.toggle-label svg{width:16px;height:16px;stroke:var(--text2);stroke-width:1.8;fill:none}
+
+/* Buttons */
+.btn-primary{width:100%;background:var(--dark);color:var(--dark-text);border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px;font-family:inherit;transition:opacity .15s}
+.btn-primary:active{opacity:.75}
+.btn-danger{width:100%;background:transparent;border:0.5px solid var(--border2);border-radius:10px;padding:12px;font-size:12px;color:var(--danger);cursor:pointer;margin-top:10px;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;font-weight:500;transition:all .15s}
+.btn-danger svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none}
+.btn-danger:hover{background:var(--bg-danger);border-color:var(--danger)}
+.btn-sheet-del{width:100%;background:#fff;border:1.5px solid #E24B4A;border-radius:10px;padding:13px;font-size:13px;font-weight:600;color:#A32D2D;cursor:pointer;margin-top:10px;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .15s}
+[data-theme="dark"] .btn-sheet-del{background:var(--bg2);border-color:#E24B4A;color:#F09595}
+.btn-sheet-del:hover{background:var(--bg-danger)}
+.btn-sheet-del:active{opacity:.8}
+
+/* Sheet */
+.sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:100;pointer-events:none;transition:background .3s}
+.sheet-overlay.open{background:var(--sheet-overlay);pointer-events:all}
+.sheet{position:fixed;bottom:0;left:0;right:0;width:100%;background:var(--bg);border-radius:22px 22px 0 0;z-index:101;transform:translateY(105%);transition:transform .35s cubic-bezier(.32,.72,0,1);max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:env(safe-area-inset-bottom,16px)}
+.sheet.open{transform:translateY(0)}
+.sheet-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:14px auto 0}
+.sheet-inner{padding:16px 18px 24px;max-width:430px;margin:0 auto}
+.sheet-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.sheet-close{background:var(--bg2);border:none;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.sheet-close svg{width:14px;height:14px;stroke:var(--text2);stroke-width:2.2;fill:none}
+.sheet-close:hover{background:var(--bg3)}
+
+/* Icon picker */
+.icon-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:14px}
+.icon-opt{width:100%;aspect-ratio:1;background:var(--bg2);border:0.5px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;padding:0}
+.icon-opt svg{width:20px;height:20px;stroke:var(--text2);stroke-width:1.7;fill:none;pointer-events:none;transition:stroke .15s}
+.icon-opt:hover{border-color:var(--border2)}
+.icon-opt.on{background:var(--dark);border-color:var(--dark)}
+.icon-opt.on svg{stroke:var(--dark-text)}
+
+/* Sub-tabs */
+.subtab{background:none;border:none;font-family:inherit;font-size:12px;font-weight:600;color:var(--text3);padding:7px 14px;border-radius:20px;cursor:pointer;transition:all .15s}
+.subtab.active{background:var(--dark);color:var(--dark-text)}
+
+/* Bento grid */
+.bento-group{margin-bottom:20px}
+.bento-period{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;padding:0 2px}
+.bento-row{display:grid;gap:8px}
+.bento-row.cols-1{grid-template-columns:1fr}
+.bento-row.cols-2{grid-template-columns:1fr 1fr}
+.bento-row.cols-3{grid-template-columns:1fr 1fr 1fr}
+.bento-card{background:var(--bg);border:0.5px solid var(--border);border-radius:14px;padding:13px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.bento-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+.bento-card:active{transform:scale(.97)}
+.bento-card.big{padding:16px}
+.bento-card-date{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.bento-card-date svg{stroke:var(--text3)}
+.bento-card-items{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.bento-chip{font-size:10px;background:var(--bg2);color:var(--text2);border-radius:6px;padding:3px 7px;font-weight:500}
+.bento-chip.more{color:var(--text3)}
+.bento-card-cost{font-size:15px;font-weight:800;color:var(--text);letter-spacing:-.4px;margin-top:auto}
+.bento-card-odo{font-size:10px;color:var(--text3);margin-top:3px}
+.bento-card-accent{position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0}
+.bento-empty{text-align:center;padding:32px 16px;color:var(--text3);font-size:12px}
+.bento-empty-icon{font-size:32px;display:block;margin-bottom:8px;opacity:.4}
+
+/* Bento per-item rows */
+.bei-list{display:flex;flex-direction:column;gap:5px;margin-bottom:8px}
+.bei-row{display:flex;align-items:center;justify-content:space-between;padding:7px 9px;background:var(--bg2);border-radius:9px;cursor:pointer;transition:background .15s;gap:8px}
+.bei-row:hover{background:var(--bg3)}
+.bei-row:active{transform:scale(.98)}
+.bei-left{display:flex;align-items:center;gap:7px;flex:1;min-width:0}
+.bei-ico{width:26px;height:26px;background:var(--bg);border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--text2);flex-shrink:0}
+.bei-info{flex:1;min-width:0}
+.bei-name{font-size:11px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bei-note{font-size:10px;color:var(--text3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bei-right{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.bei-cost{font-size:11px;font-weight:700;color:var(--text)}
+.bei-add{font-size:10px;color:var(--text3);font-style:italic}
+
+/* Bento expanded state */
+.bento-card.expanded{border-color:var(--border2);box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+.bento-exp-list{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.bento-exp-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--bg2);border-radius:9px}
+.bento-exp-ico{width:28px;height:28px;background:var(--bg);border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--text2);flex-shrink:0}
+.bento-exp-name{font-size:12px;font-weight:600;color:var(--text)}
+.bento-exp-note{font-size:11px;color:var(--text2);background:var(--bg2);border-radius:8px;padding:7px 10px;margin-bottom:8px}
+.bento-exp-actions{display:flex;gap:6px;margin-top:12px;padding-top:10px;border-top:0.5px solid var(--border)}
+.bento-exp-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:9px 10px;border-radius:9px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text2);transition:all .15s}
+.bento-exp-btn:active{transform:scale(.97)}
+.bento-edit-btn:hover{background:var(--bg3);color:var(--text)}
+.bento-del-btn{color:#A32D2D;border-color:rgba(162,45,45,0.25);background:var(--bg-danger)}
+.bento-del-btn:hover{background:#FBDDDD}
+[data-theme="dark"] .bento-del-btn{color:var(--danger);background:var(--bg-danger)}
+
+/* Session detail item cards */
+.sesi-item-card{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:0.5px solid var(--border);border-radius:12px;padding:11px 12px;cursor:pointer;transition:all .15s;gap:8px}
+.sesi-item-card:hover{border-color:var(--border2);background:var(--bg2)}
+.sesi-item-card:active{transform:scale(.98)}
+.sesi-item-left{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.sesi-item-ico{width:36px;height:36px;background:var(--bg2);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--text2);flex-shrink:0;overflow:hidden}
+.sesi-item-info{flex:1;min-width:0}
+.sesi-item-name{font-size:13px;font-weight:700;color:var(--text)}
+.sesi-item-note{font-size:11px;color:var(--text2);margin-top:2px}
+.sesi-item-add{font-size:10px;color:var(--text3);margin-top:2px;font-style:italic}
+.sesi-item-right{display:flex;align-items:center;gap:5px;flex-shrink:0}
+.sesi-item-cost{font-size:13px;font-weight:700;color:var(--text)}
+
+/* Nav back */
+.nav-back{background:var(--bg2);border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);flex-shrink:0;transition:all .15s}
+.nav-back:hover{background:var(--bg3)}
+.set-block{padding:14px 0}
+.set-block+.set-block{border-top:0.5px solid var(--border)}
+.set-block-title{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.theme-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
+.theme-info{display:flex;align-items:center;gap:10px}
+.theme-info svg{width:18px;height:18px;stroke:var(--text2);stroke-width:1.8;fill:none;flex-shrink:0}
+.theme-info-text .tit{font-size:13px;font-weight:600;color:var(--text)}
+.theme-info-text .sub{font-size:11px;color:var(--text2);margin-top:1px}
+
+/* ── Garage Landing ── */
+.garage-wrap{padding:24px 16px 20px;min-height:100vh}
+.garage-top{margin-bottom:18px}
+.garage-title{font-size:32px;font-weight:800;color:var(--text);letter-spacing:-1px;line-height:1.1}
+.garage-subtitle{font-size:14px;color:var(--text2);margin-top:4px}
+.garage-car-card{background:var(--bg);border-radius:20px;overflow:hidden;margin-bottom:14px;cursor:pointer;transition:transform .15s;box-shadow:0 2px 16px rgba(0,0,0,0.06)}
+.garage-car-card:active{transform:scale(.99)}
+.garage-car-img{background:#d8d8dc;height:220px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+[data-theme="dark"] .garage-car-img{background:#252528}
+.garage-next-pill{position:absolute;top:14px;left:14px;background:rgba(255,255,255,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:600;color:var(--text2)}
+[data-theme="dark"] .garage-next-pill{background:rgba(30,30,34,0.85);color:var(--text2)}
+.garage-car-footer{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-top:0.5px solid var(--border)}
+.garage-car-name{font-size:15px;font-weight:700;color:var(--text)}
+.garage-arrow{width:30px;height:30px;background:var(--bg2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text2);flex-shrink:0}
+.garage-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;align-items:stretch}
+.garage-col{display:flex;flex-direction:column;gap:10px}
+.garage-col{display:flex;flex-direction:column;gap:10px}
+.garage-stat-card{background:var(--bg);border-radius:16px;padding:14px;box-shadow:0 1px 8px rgba(0,0,0,0.04)}
+.garage-stat-card.stretch{height:100%;display:flex;flex-direction:column}
+.garage-stat-wide{cursor:pointer;transition:transform .15s;height:100%;display:flex;flex-direction:column}
+.garage-stat-wide:active{transform:scale(.99)}
+.garage-col .garage-stat-card{flex:1}
+.garage-stat-top{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:var(--text3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px}
+.garage-stat-top svg{flex-shrink:0;stroke:var(--text3)}
+.garage-next-svc{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex:1}
+.gnext-icon{width:38px;height:38px;background:var(--bg2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.gnext-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px}
+.gnext-sub{font-size:11px;color:var(--text2)}
+.gnext-sub.due{color:var(--danger)}.gnext-sub.soon{color:var(--warning)}.gnext-sub.ok{color:var(--success)}
+.garage-see-all{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2);padding-top:10px;border-top:0.5px solid var(--border)}
+.garage-see-all svg{flex-shrink:0;stroke:var(--text3)}
+.garage-big-val{font-size:24px;font-weight:800;color:var(--text);letter-spacing:-1px;line-height:1}
+.garage-unit{font-size:13px;font-weight:500;color:var(--text2);letter-spacing:0}
+.garage-cost-card{background:var(--bg);border-radius:16px;padding:14px;cursor:pointer;transition:transform .15s;box-shadow:0 1px 8px rgba(0,0,0,0.04)}
+.garage-cost-card:active{transform:scale(.99)}
+.garage-cost-val{font-size:28px;font-weight:800;color:var(--text);letter-spacing:-1px}
+.garage-arrow-circle{width:34px;height:34px;background:var(--bg2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text2);flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- GARAGE (landing) -->
+<div id="s-garage" class="screen active">
+  <div class="garage-wrap">
+    <div class="garage-top">
+      <div class="garage-title">Dibalik Kemudi</div>
+      <div class="garage-subtitle">Perawatan, parkir, tol & biaya kendaraan</div>
+    </div>
+    <div class="garage-car-card" onclick="enterDashboard()">
+      <div class="garage-car-img">
+        <img 
+          src="./assets/latio-bg.webp"
+          alt="Nissan Latio Hatchback Silver"
+          style="width:100%;height:100%;object-fit:cover;object-position:center"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+        />
+        <div style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:72px">🚗</div>
+        
+      </div>
+      <div class="garage-car-footer">
+        <span class="garage-car-name">Nissan Latio Hatchback 2007</span>
+        <span class="garage-arrow">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </span>
+      </div>
+    </div>
+    <div class="garage-grid">
+      <div class="garage-stat-card garage-stat-wide" onclick="enterDashboard()">
+        <div class="garage-stat-top">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          <span>SERVIS</span>
+        </div>
+        <div class="garage-next-svc" id="garage-next-svc">
+          <div class="gnext-icon" id="gnext-icon" style="color:var(--text2)"></div>
+          <div>
+            <div class="gnext-name" id="gnext-name">Oli mesin</div>
+            <div class="gnext-sub" id="gnext-sub">Belum dicatat</div>
+          </div>
+        </div>
+        <div class="garage-see-all" id="garage-see-all">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Lihat semua perawatan
+        </div>
+      </div>
+      <div class="garage-col">
+        <div class="garage-stat-card">
+          <div class="garage-stat-top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M12 2a10 10 0 1 0 10 10"/><path d="M19.79 7.79l-2.83 2.83"/></svg>
+            <span>ODOMETER</span>
+          </div>
+          <div class="garage-big-val"><span id="godo-val">190.000</span> <span class="garage-unit">km</span></div>
+        </div>
+        <div class="garage-stat-card">
+          <div class="garage-stat-top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"/></svg>
+            <span>RIWAYAT</span>
+          </div>
+          <div class="garage-big-val"><span id="gsvc-val">0</span> <span class="garage-unit">servis</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="garage-cost-card" onclick="enterDashboard()">
+      <div class="garage-stat-top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        <span>TOTAL BIAYA PERAWATAN</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
+        <div class="garage-cost-val" id="gcost-val">Rp 0</div>
+        <div class="garage-arrow-circle">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOME -->
+<div id="s-home" class="screen">
+  <div class="car-header">
+    <div style="display:flex;align-items:center;gap:8px;padding:12px 0 0">
+      <button class="nav-back" onclick="showScreen('garage')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span style="font-size:15px;font-weight:700;color:var(--text)">Detail Kendaraan</span>
+    </div>
+    <div class="car-row" style="margin-top:10px">
+      <div class="car-avatar">🚗</div>
+      <div>
+        <div class="car-name">Nissan Latio Hatchback</div>
+        <div class="car-sub">2007 · Silver</div>
+      </div>
+      <div class="odo-pill">
+        <svg viewBox="0 0 24 24"><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 7v1"/><path d="M17 9.5l-.87.5"/><path d="M19.5 14h-1"/><path d="M7 9.5l.87.5"/><path d="M4.5 14h1"/><path d="M19.79 7.79l-2.83 2.83" stroke-linecap="round"/></svg>
+        <span id="odo-text">190.000 km</span>
+      </div>
+    </div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-label">Total pengeluaran</div><div class="stat-val" id="st-total">Rp 0</div></div>
+    <div class="stat-card"><div class="stat-label">Item jatuh tempo</div><div class="stat-val" id="st-due">0 item</div></div>
+    <div class="stat-card"><div class="stat-label">Servis tercatat</div><div class="stat-val" id="st-svc">0x</div></div>
+    <div class="stat-card"><div class="stat-label">Biaya parkir & tol</div><div class="stat-val" id="st-misc">Rp 0</div></div>
+  </div>
+  <div class="tab-bar">
+    <div class="tab active" id="tab-p" onclick="switchTab('p')">Perawatan</div>
+    <div class="tab" id="tab-e" onclick="switchTab('e')">Parkir & Tol</div>
+  </div>
+  <div id="pane-p">
+    <div class="section">
+      <div class="sec-hdr">
+        <span class="sec-title">Sesi servis</span>
+        <button class="btn-sm" onclick="openServiceSheet(null)">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+          Catat servis
+        </button>
+      </div>
+      <div id="bento-grid"></div>
+    </div>
+  </div>
+  <div id="pane-e" style="display:none">
+    <div class="section">
+      <div class="sec-hdr">
+        <span class="sec-title">Parkir & Tol</span>
+        <button class="btn-sm" onclick="openExpSheet()">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+          Tambah
+        </button>
+      </div>
+      <div class="exp-list" id="exp-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- HISTORY -->
+<div id="s-hist" class="screen">
+  <div class="form-screen">
+    <div class="page-title">Riwayat catatan</div>
+    <div class="hist-list" id="hist-list"></div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div id="s-set" class="screen">
+  <div class="form-screen">
+    <div class="page-title">Pengaturan</div>
+    <div class="set-block">
+      <div class="set-block-title">Tampilan</div>
+      <div class="theme-row">
+        <div class="theme-info">
+          <span id="theme-svg-wrap">
+            <!-- injected by JS -->
+          </span>
+          <div class="theme-info-text">
+            <div class="tit" id="theme-tit">Dark mode</div>
+            <div class="sub" id="theme-sub">Aktifkan tampilan gelap</div>
+          </div>
+        </div>
+        <div class="toggle" id="theme-toggle" onclick="toggleTheme()"></div>
+      </div>
+    </div>
+    <div class="set-block">
+      <div class="set-block-title">Kendaraan</div>
+      <div class="form-group">
+        <label class="form-label">Odometer saat ini (km)</label>
+        <input class="form-input" type="text" inputmode="numeric" id="odo-inp">
+      </div>
+      <button class="btn-primary" onclick="updateOdo()">Simpan odometer</button>
+    </div>
+    <div class="set-block">
+      <div class="set-block-title">Data</div>
+      <button class="btn-danger" onclick="clearAll()">
+        <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        Hapus semua data
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- SESSION DETAIL SCREEN -->
+<div id="s-sesi" class="screen">
+  <div style="background:var(--bg);padding:14px 16px 0">
+    <div style="display:flex;align-items:center;gap:10px;padding-bottom:14px;border-bottom:0.5px solid var(--border)">
+      <button class="nav-back" onclick="showScreen('home');switchTab('p')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div style="flex:1">
+        <div id="sesi-title" style="font-size:15px;font-weight:700;color:var(--text)">Detail Servis</div>
+        <div id="sesi-sub" style="font-size:11px;color:var(--text2);margin-top:1px"></div>
+      </div>
+      <div id="sesi-accent-dot" style="width:10px;height:10px;border-radius:50%;flex-shrink:0"></div>
+    </div>
+    <!-- Info bar -->
+    <div style="display:flex;gap:8px;padding:12px 0">
+      <div style="flex:1;background:var(--bg3);border-radius:10px;padding:10px 12px">
+        <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px">Total biaya</div>
+        <div id="sesi-cost" style="font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.5px">Rp —</div>
+      </div>
+      <div style="flex:1;background:var(--bg2);border-radius:10px;padding:10px 12px">
+        <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px">Odometer</div>
+        <div id="sesi-odo" style="font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.5px">—</div>
+      </div>
+    </div>
+    <!-- Note -->
+    <div id="sesi-note" style="display:none;background:var(--bg3);border-radius:10px;padding:9px 12px;font-size:12px;color:var(--text2);margin-bottom:12px"></div>
+  </div>
+
+  <!-- Item list -->
+  <div style="padding:14px 16px 0">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px">Item yang diservis</div>
+      <button class="btn-sm" onclick="openAddToSessionSheet()" style="font-size:11px;padding:5px 11px">
+        <svg viewBox="0 0 24 24" style="width:11px;height:11px"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+        Tambah item
+      </button>
+    </div>
+    <div id="sesi-item-list" style="display:flex;flex-direction:column;gap:6px"></div>
+  </div>
+
+  <!-- Actions -->
+  <div style="padding:16px 16px 88px;margin-top:4px">
+    <button onclick="deleteCurrentSession()" style="width:100%;background:#fff;border:1.5px solid #E24B4A;border-radius:10px;padding:14px;font-size:13px;font-weight:600;color:#A32D2D;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A32D2D" stroke-width="2.2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+      Hapus sesi servis ini
+    </button>
+  </div>
+</div>
+
+<!-- CUSTOM DIALOG -->
+<div id="dlg-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;align-items:center;justify-content:center;padding:24px">
+  <div style="background:var(--bg);border-radius:16px;width:100%;max-width:320px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.2)">
+    <div style="padding:20px 20px 0">
+      <div id="dlg-title" style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px"></div>
+      <div id="dlg-msg" style="font-size:13px;color:var(--text2);line-height:1.5;white-space:pre-wrap"></div>
+    </div>
+    <div id="dlg-btns" style="display:flex;gap:0;padding:16px 12px 12px"></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bot-nav">
+  <button class="nav-btn active" id="nav-garage" onclick="showScreen('garage')">
+    <div class="nav-dot"></div>
+    <svg viewBox="0 0 24 24"><path d="M5 12l-2 0l9-9l9 9l-2 0"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>
+    <span>Garasi</span>
+  </button>
+  <button class="nav-btn" id="nav-home" onclick="showScreen('home');switchTab('p')">
+    <div class="nav-dot"></div>
+    <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+    <span>Perawatan</span>
+  </button>
+  <button class="nav-btn" id="nav-hist" onclick="showScreen('hist')">
+    <div class="nav-dot"></div>
+    <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"/></svg>
+    <span>Riwayat</span>
+  </button>
+  <button class="nav-btn" id="nav-set" onclick="showScreen('set')">
+    <div class="nav-dot"></div>
+    <svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37c1 .608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+    <span>Pengaturan</span>
+  </button>
+</nav>
+
+<!-- SERVICE SHEET — single item per submit -->
+<div class="sheet-overlay" id="svc-overlay" onclick="closeSheet('svc')"></div>
+<div class="sheet" id="svc-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-inner">
+    <div class="sheet-title" id="svc-sheet-title">Tambah Item Servis<button class="sheet-close" onclick="closeSheet('svc')"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg></button></div>
+
+    <!-- Session info (shown when adding to existing session) -->
+    <div id="svc-session-info" style="display:none;background:var(--bg3);border-radius:10px;padding:9px 12px;margin-bottom:14px;font-size:12px;color:var(--text2)"></div>
+
+    <!-- Single-select item — from existing maintenance items -->
+    <div class="form-group">
+      <label class="form-label">Item perawatan</label>
+      <div class="chip-wrap" id="svc-chips"></div>
+      <div style="margin-top:6px">
+        <button class="btn-sm" onclick="openAddItemSheet()" style="font-size:11px">
+          <svg viewBox="0 0 24 24" style="width:11px;height:11px"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+          Tambah item baru ke daftar
+        </button>
+      </div>
+    </div>
+
+    <!-- Cost & note -->
+    <div class="form-group">
+      <label class="form-label">Biaya (Rp)</label>
+      <input class="form-input" type="text" inputmode="numeric" id="svc-cost" placeholder="Kosongkan jika belum diketahui">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Catatan (opsional)</label>
+      <input class="form-input" type="text" id="svc-note" placeholder="Contoh: ganti di bengkel resmi">
+    </div>
+
+    <!-- Date & odo (only shown for new session) -->
+    <div id="svc-date-section">
+      <div class="form-group">
+        <label class="form-label">Tanggal servis</label>
+        <input class="form-input" type="date" id="svc-date">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Odometer (km)</label>
+        <input class="form-input" type="text" inputmode="numeric" id="svc-odo">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Catatan sesi (opsional)</label>
+        <input class="form-input" type="text" id="svc-session-note" placeholder="Contoh: Bengkel ART">
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="saveServiceItem()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="vertical-align:middle;margin-right:6px;margin-top:-2px"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+      Tambah ke sesi servis
+    </button>
+  </div>
+</div>
+<!-- ADD ITEM SHEET -->
+<div class="sheet-overlay" id="item-overlay" onclick="closeSheet('item')"></div>
+<div class="sheet" id="item-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-inner">
+    <div class="sheet-title">Tambah Item Perawatan<button class="sheet-close" onclick="closeSheet('item')"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg></button></div>
+    <div class="form-group">
+      <label class="form-label">Nama item</label>
+      <input class="form-input" type="text" id="newitem-name" placeholder="Contoh: Spooring & balancing">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Ikon</label>
+      <div class="icon-grid" id="icon-grid"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Tiap (km)</label>
+        <input class="form-input" type="number" id="newitem-km" placeholder="—">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tiap (bulan)</label>
+        <input class="form-input" type="number" id="newitem-mo" placeholder="—">
+      </div>
+    </div>
+    <p class="form-hint" style="margin-bottom:14px">Reminder muncul saat km atau waktu — mana yang tercapai duluan. Kosongkan yang tidak dipakai.</p>
+    <button class="btn-primary" onclick="saveNewItem()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px;margin-top:-2px"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+      Tambah Item
+    </button>
+  </div>
+</div>
+
+<!-- ITEM EDIT SHEET -->
+<div class="sheet-overlay" id="itemedit-overlay" onclick="closeSheet('itemedit')"></div>
+<div class="sheet" id="itemedit-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-inner">
+    <div class="sheet-title">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div id="iei-icon" style="width:36px;height:36px;background:var(--bg2);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--text2);flex-shrink:0"></div>
+        <div>
+          <div id="iei-title" style="font-size:15px;font-weight:700;color:var(--text)">Item</div>
+          <div id="iei-date" style="font-size:11px;color:var(--text2);margin-top:1px"></div>
+        </div>
+      </div>
+      <button class="sheet-close" onclick="closeSheet('itemedit')"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg></button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Biaya (Rp)</label>
+      <input class="form-input" type="text" inputmode="numeric" id="iei-cost" placeholder="Masukkan biaya penggantian">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Catatan (opsional)</label>
+      <input class="form-input" type="text" id="iei-note" placeholder="Contoh: ganti di bengkel resmi">
+    </div>
+    <button class="btn-primary" onclick="saveItemEdit()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px;margin-top:-2px"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Simpan
+    </button>
+  </div>
+</div>
+
+<!-- EXPENSE SHEET -->
+<div class="sheet-overlay" id="exp-overlay" onclick="closeSheet('exp')"></div>
+<div class="sheet" id="exp-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-inner">
+    <div class="sheet-title">Tambah pengeluaran<button class="sheet-close" onclick="closeSheet('exp')"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg></button></div>
+    <div class="form-group">
+      <label class="form-label">Jenis</label>
+      <div class="chip-wrap">
+        <div class="chip on" id="chip-pkr" onclick="selExpType('parkir')">
+          <span class="chip-icon">🅿️</span> Parkir
+        </div>
+        <div class="chip" id="chip-tol" onclick="selExpType('tol')">
+          <span class="chip-icon">🛣️</span> Tol
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Tanggal</label>
+      <input class="form-input" type="date" id="exp-date">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Biaya (Rp)</label>
+      <input class="form-input" type="text" inputmode="numeric" id="exp-cost" placeholder="0">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Catatan (opsional)</label>
+      <input class="form-input" type="text" id="exp-note" placeholder="Contoh: Parkiran mall">
+    </div>
+    <button class="btn-primary" onclick="saveExp()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px;margin-top:-2px"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Simpan
+    </button>
+  </div>
+</div>
+
+</div>
+<script>
+// ─── Icon library ───
+const ICONS = [
+  {id:'wrench',s:'<path d="M7 19l10-10M17 3l4 4-1.5 1.5-4-4zm-7 7l-5 5 2 2 5-5z"/><path d="M6 20a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>'},
+  {id:'tools',s:'<path d="M3 21l11-11"/><path d="M12.5 7.5l2-2-1-3 3 1 2-2 1 3-2 2zM7.5 12.5l-3 3 1 3-3-1-2 2-1-3 2-2z"/>'},
+  {id:'filter',s:'<path d="M3 4h18l-7 8v6l-4 2V12L3 4z"/>'},
+  {id:'wind',s:'<path d="M5 8h8.5a2.5 2.5 0 1 0-2.34-3.5"/><path d="M3 12h15.5a2.5 2.5 0 1 1-2.34 3.5"/><path d="M4 16h5.5a2.5 2.5 0 1 0-2.34-3.5"/>'},
+  {id:'snowflake',s:'<path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/><circle cx="12" cy="12" r="2"/>'},
+  {id:'bolt',s:'<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>'},
+  {id:'engine',s:'<rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 7V5M10 7V5M17 7v-.5A1.5 1.5 0 0 1 18.5 5M2 12h1m18 0h1M6 12v3m4-3v3"/>'},
+  {id:'droplet',s:'<path d="M12 2s-6 6.4-6 10a6 6 0 0 0 12 0c0-3.6-6-10-6-10z"/>'},
+  {id:'disc',s:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/>'},
+  {id:'battery',s:'<rect x="2" y="7" width="16" height="10" rx="2"/><path d="M22 11v2"/><path d="M6 11v2m4-2v2"/>'},
+  {id:'flame',s:'<path d="M12 2c0 0-4 5-4 9a4 4 0 0 0 8 0 4 4 0 0 0-1-2.6C14 10 12 7 12 2z"/>'},
+  {id:'thermo',s:'<path d="M9 16V8a3 3 0 1 1 6 0v8"/><circle cx="12" cy="18" r="3"/><path d="M9 14h6"/>'},
+  {id:'gasstation',s:'<path d="M3 22V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4"/><path d="M13 10h3a2 2 0 0 1 2 2v3a2 2 0 0 0 2 2 2 2 0 0 0 2-2V9l-3-3"/><path d="M3 11h10M3 16h10"/>'},
+  {id:'oil',s:'<path d="M12 2s-4 4.3-4 7a4 4 0 0 0 8 0c0-2.7-4-7-4-7z"/><path d="M5 15h14M8 22h8"/>'},
+  {id:'recycle',s:'<path d="M7 4l-3 5h6l-3-5z"/><path d="M17 4l3 5h-6l3-5z"/><path d="M12 15l-3 5h6l-3-5z"/><path d="M4 9l2 6h12l2-6"/>'},
+  {id:'clock',s:'<circle cx="12" cy="12" r="10"/><path d="M12 7v5l3 3"/>'},
+  {id:'calendar',s:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>'},
+  {id:'wash',s:'<circle cx="12" cy="12" r="9"/><path d="M6.5 9.5a5.5 5.5 0 0 1 11 0c0 4-5.5 9-5.5 9S6.5 13.5 6.5 9.5z"/>'},
+  {id:'car',s:'<path d="M5 17H3a2 2 0 0 1-2-2V9l3-5h12l3 5v6a2 2 0 0 1-2 2h-2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/><path d="M1 9h22"/>'},
+  {id:'steering',s:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 9V2M6.2 15l-5.6-2.5M17.8 15l5.6-2.5"/>'},
+  {id:'road',s:'<path d="M3 20l4-16h10l4 16"/><path d="M11 8h2m-2.5 4h3m-3.5 4h4"/>'},
+  {id:'parking',s:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/>'},
+  {id:'leaf',s:'<path d="M17 8C8 10 5.9 16.2 3.8 21"/><path d="M21 3C9 3 5 8 5 14.5c0 0 4.5-3 9-3S21 3 21 3z"/>'},
+  {id:'shield',s:'<path d="M12 3L4 7v5c0 4.4 3.4 8.5 8 9.3 4.6-.8 8-4.9 8-9.3V7l-8-4z"/>'},
+  {id:'bell',s:'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>'},
+  {id:'alert',s:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4m0 4h.01"/>'},
+  {id:'target',s:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>'},
+  {id:'activity',s:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>'},
+  {id:'chartbar',s:'<path d="M3 20h18M8 20V10m4 10V4m4 16v-7"/>'},
+  {id:'notes',s:'<path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M8 9h8M8 13h6M8 17h4"/>'},
+  {id:'checkup',s:'<path d="M4 12h4l3 7 4-14 3 7h6"/>'},
+  {id:'refresh',s:'<path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>'},
+  {id:'settings2',s:'<path d="M4 10a2 2 0 1 0 4 0 2 2 0 0 0-4 0"/><path d="M6 4v4m0 4v12"/><path d="M14 16a2 2 0 1 0 4 0 2 2 0 0 0-4 0"/><path d="M16 4v10m0 4v2"/>'},
+  {id:'listcheck',s:'<path d="M3 6h2m4 0h12M3 12h2m4 0h12M3 18h2m4 0h12"/>'},
+  {id:'info',s:'<circle cx="12" cy="12" r="10"/><path d="M12 8v1m0 3v4"/>'},
+  {id:'star',s:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>'},
+  {id:'heart',s:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/>'},
+  {id:'rotate',s:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>'},
+  {id:'tachometer',s:'<path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M12 2a10 10 0 0 1 7.38 16.75M4.62 18.75A10 10 0 0 1 12 2"/><path d="M8 22h8"/><path d="M17.5 8.5l-3.5 3.5" stroke-linecap="round"/>'},
+  {id:'paint',s:'<path d="M2 15l10-10 7 7-10 10z"/><path d="M17.5 7.5l1.5-1.5 2 2-1.5 1.5"/>'},
+];
+
+const DEFAULT_ITEMS = [
+  {id:'oli_mesin',name:'Oli mesin',icon:'engine',km:10000,mo:6,custom:false},
+  {id:'filter_oli',name:'Filter oli',icon:'filter',km:10000,mo:6,custom:false},
+  {id:'filter_udara',name:'Filter udara mesin',icon:'wind',km:20000,mo:null,custom:false},
+  {id:'filter_kabin',name:'Filter kabin / AC',icon:'snowflake',km:15000,mo:12,custom:false},
+  {id:'busi',name:'Busi',icon:'bolt',km:40000,mo:null,custom:false},
+  {id:'oli_trans',name:'Oli transmisi CVT/AT',icon:'settings2',km:50000,mo:null,custom:false},
+  {id:'coolant',name:'Coolant / air radiator',icon:'droplet',km:60000,mo:36,custom:false},
+  {id:'minyak_rem',name:'Minyak rem',icon:'disc',km:50000,mo:30,custom:false},
+  {id:'kampas_rem',name:'Kampas rem',icon:'checkup',km:40000,mo:null,custom:false},
+  {id:'aki',name:'Aki',icon:'battery',km:null,mo:36,custom:false},
+];
+
+const ACCENTS = ['#6C63FF','#FF6584','#43C59E','#F4A261','#4ECDC4','#E76F51','#A8DADC'];
+
+// ─── State ───
+let D = {odo:190000,services:[],expenses:[],items:[],theme:'light'};
+let selSvc = [], expType = 'parkir', costOn = true, selIcon = 'wrench';
+let currentSheetItemId = null; // for maint item delete via service sheet
+let currentSessionId = null;   // session detail page
+let _editingSessionId = null;  // editing existing session
+let _itemEditSvcId = null, _itemEditItemId = null; // item cost edit
+
+// ─── Persistence ───
+function load(){
+  try {
+    const s = localStorage.getItem('nlo7');
+    if(s) D = {...D, ...JSON.parse(s)};
+    if(!D.items || !D.items.length) D.items = JSON.parse(JSON.stringify(DEFAULT_ITEMS));
+  } catch(e) { D.items = JSON.parse(JSON.stringify(DEFAULT_ITEMS)); }
+}
+function save(){ try{ localStorage.setItem('nlo7', JSON.stringify(D)); }catch(e){} }
+
+// ─── Helpers ───
+function svgFor(id, size){
+  size = size||20;
+  const ic = ICONS.find(i=>i.id===id)||ICONS[0];
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ic.s}</svg>`;
+}
+function fmt(n){ return 'Rp '+Math.round(n).toLocaleString('id-ID'); }
+function fmtKm(n){ return n.toLocaleString('id-ID')+' km'; }
+function today(){ return new Date().toISOString().split('T')[0]; }
+function getAllItems(){ return D.items && D.items.length ? D.items : DEFAULT_ITEMS; }
+function toRaw(s){ return parseInt((s||'').replace(/\./g,''))||0; }
+function addDots(n){ return Math.round(n).toLocaleString('id-ID'); }
+function getNumVal(id){ return toRaw(document.getElementById(id)?.value||'0'); }
+function setNumVal(id,n){ const el=document.getElementById(id); if(el) el.value=addDots(n); }
+
+function setupNumInput(id){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.addEventListener('input', function(){
+    const raw = this.value.replace(/\./g,'');
+    if(raw==='') return;
+    const n = parseInt(raw);
+    if(isNaN(n)) return;
+    const pos = this.selectionStart;
+    const oldLen = this.value.length;
+    this.value = addDots(n);
+    const diff = this.value.length - oldLen;
+    this.setSelectionRange(pos+diff, pos+diff);
+  });
+}
+
+// ─── Status ───
+function getLastSvc(id){
+  return [...D.services].filter(s=>s.items.includes(id)).sort((a,b)=>b.odo-a.odo)[0]||null;
+}
+function getStatus(item){
+  const l=getLastSvc(item.id);
+  if(!l) return 'none';
+  let pct=0;
+  if(item.km) pct=Math.max(pct,(D.odo-l.odo)/item.km);
+  if(item.mo){ const m=(Date.now()-new Date(l.date).getTime())/(1000*60*60*24*30); pct=Math.max(pct,m/item.mo); }
+  return pct>=1?'due':pct>=0.8?'soon':'ok';
+}
+
+// ─── Render: Maintenance grid ───
+function renderMaint(){
+  // Count due items for stats — no DOM grid needed anymore
+  let due=0;
+  getAllItems().forEach(it=>{ if(getStatus(it)==='due') due++; });
+  const stDue = document.getElementById('st-due');
+  if(stDue){ stDue.textContent=due+' item'; stDue.className='stat-val '+(due>0?'red':'green'); }
+}
+
+function confirmDeleteItem(id){
+  const label = getAllItems().find(it=>it.id===id)?.name||'item ini';
+  dlgConfirm('Hapus item perawatan?', `"${label}" akan dihapus dari daftar.\nRiwayat servisnya tetap tersimpan.`, 'Hapus', 'danger', ()=>{
+    D.items = getAllItems().filter(it=>it.id!==id);
+    save(); renderAll();
+    if(currentSessionId && document.getElementById('s-sesi').classList.contains('active')){
+      openSesiDetail(currentSessionId);
+    }
+  });
+}
+
+// Selecting item from maint-grid in a sheet context
+function selSvcFromMaint(id){ selSvcSingle(id); closeSheet('item'); }
+
+// ─── Render: Expense list ───
+function renderExp(){
+  const list = document.getElementById('exp-list');
+  if(!list) return;
+  const items = [...D.expenses].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  if(!items.length){ list.innerHTML='<div class="empty"><span class="empty-icon">🧾</span>Belum ada catatan parkir atau tol</div>'; return; }
+  list.innerHTML = items.map(e=>`<div class="exp-item">
+    <div class="exp-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">${e.type==='parkir'?'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/>':'<path d="M3 20l4-16h10l4 16"/><path d="M11 8h2m-2.5 4h3m-3.5 4h4"/>'}</svg></div>
+    <div class="exp-info">
+      <div class="exp-name">${e.type==='parkir'?'Parkir':'Tol'}${e.note?' — '+e.note:''}</div>
+      <div class="exp-date">${new Date(e.date).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}</div>
+    </div>
+    <div class="exp-amt">${fmt(e.cost)}</div>
+    <button class="del-btn" onclick="delExp('${e.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg></button>
+  </div>`).join('');
+}
+
+// ─── Render: History ───
+function renderHist(){
+  const list = document.getElementById('hist-list');
+  if(!list) return;
+  const all = [...D.services.map(s=>({...s,_t:'servis'})), ...D.expenses.map(e=>({...e,_t:e.type}))].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  if(!all.length){ list.innerHTML='<div class="empty"><span class="empty-icon">🕐</span>Belum ada riwayat</div>'; return; }
+  list.innerHTML = all.map(r=>{
+    if(r._t==='servis'){
+      const nm = r.items.map(id=>getAllItems().find(m=>m.id===id)?.name||id).join(', ');
+      const cost = r.itemDetails ? r.items.reduce((s,id)=>s+(r.itemDetails?.[id]?.cost||0),0) : (r.cost||0);
+      return `<div class="hist-item">
+        <div class="hist-row1"><span class="hist-name">${nm}</span><span class="hist-cost">${cost?fmt(cost):'—'}</span></div>
+        <div class="hist-row2"><span class="hist-meta"><span class="badge b-servis">Servis</span>${new Date(r.date).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}</span><span class="hist-odo">${r.odo?fmtKm(r.odo):''}</span></div>
+      </div>`;
+    }
+    return `<div class="hist-item">
+      <div class="hist-row1"><span class="hist-name">${r._t==='parkir'?'Parkir':'Tol'}${r.note?' — '+r.note:''}</span><span class="hist-cost">${fmt(r.cost)}</span></div>
+      <div class="hist-row2"><span class="hist-meta"><span class="badge ${r._t==='parkir'?'b-parkir':'b-tol'}">${r._t}</span>${new Date(r.date).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}</span><span class="hist-odo">—</span></div>
+    </div>`;
+  }).join('');
+}
+
+// ─── Render: Stats ───
+function renderStats(){
+  const ts = D.services.reduce((s,r)=>{
+    const c = r.itemDetails ? r.items.reduce((x,id)=>x+(r.itemDetails?.[id]?.cost||0),0) : (r.cost||0);
+    return s+c;
+  },0);
+  const tm = D.expenses.reduce((s,e)=>s+(e.cost||0),0);
+  const stTotal = document.getElementById('st-total'); if(stTotal) stTotal.textContent=fmt(ts+tm);
+  const stSvc = document.getElementById('st-svc'); if(stSvc) stSvc.textContent=D.services.length+'x';
+  const stMisc = document.getElementById('st-misc'); if(stMisc) stMisc.textContent=fmt(tm);
+  const odoText = document.getElementById('odo-text'); if(odoText) odoText.textContent=D.odo.toLocaleString('id-ID')+' km';
+}
+
+// ─── Render: Bento grid ───
+function renderBento(){
+  const grid = document.getElementById('bento-grid');
+  if(!grid) return;
+  const svcs = [...D.services].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  if(!svcs.length){
+    grid.innerHTML=`<div class="bento-empty"><span class="bento-empty-icon">🔧</span>Belum ada sesi servis.<br>Tap "Catat servis" untuk mulai.</div>`;
+    return;
+  }
+  function getPeriod(ds){ const d=new Date(ds); const y=d.getFullYear(); const h=d.getMonth()<6?0:1; return {key:`${y}-${h}`,label:h===0?`Jan – Jun ${y}`:`Jul – Des ${y}`}; }
+  const groupMap={}, groupOrder=[];
+  svcs.forEach(s=>{ const p=getPeriod(s.date); if(!groupMap[p.key]){groupMap[p.key]={label:p.label,items:[]}; groupOrder.push(p.key);} groupMap[p.key].items.push(s); });
+  let html='';
+  groupOrder.forEach((key,gi)=>{
+    const group=groupMap[key], accent=ACCENTS[gi%ACCENTS.length];
+    html+=`<div class="bento-group"><div class="bento-period">${group.label}</div>`;
+    const cards=group.items;
+    for(let i=0;i<cards.length;i+=2){
+      if(i+1<cards.length){
+        html+=`<div class="bento-row cols-2" style="margin-bottom:8px">${bentoCardHtml(cards[i],accent)}${bentoCardHtml(cards[i+1],accent)}</div>`;
+      } else {
+        html+=`<div class="bento-row cols-2" style="margin-bottom:8px">${bentoCardHtml(cards[i],accent)}<div></div></div>`;
+      }
+    }
+    html+=`</div>`;
+  });
+  grid.innerHTML=html;
+}
+
+function bentoCardHtml(svc, accent){
+  const allItems=getAllItems();
+  const d=new Date(svc.date);
+  const dateStr=d.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
+  const names=svc.items.map(id=>allItems.find(m=>m.id===id)?.name||id);
+  const totalCost=svc.itemDetails ? svc.items.reduce((s,id)=>s+(svc.itemDetails?.[id]?.cost||0),0) : (svc.cost||0);
+  const costStr=totalCost?fmt(totalCost):'Rp —';
+  const odoStr=svc.odo?fmtKm(svc.odo):'';
+  const show=names.slice(0,2);
+  const more=names.length-show.length;
+  const chips=show.map(n=>`<span class="bento-chip">${n}</span>`).join('');
+  const moreChip=more>0?`<span class="bento-chip more">+${more}</span>`:'';
+  return `<div class="bento-card" onclick="openSesiDetail('${svc.id}')">
+    <div class="bento-card-accent" style="background:${accent}"></div>
+    <div class="bento-card-date">
+      <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      ${dateStr}
+    </div>
+    <div class="bento-card-items">${chips}${moreChip}</div>
+    <div class="bento-card-cost">${costStr}</div>
+    ${odoStr?`<div class="bento-card-odo">${odoStr}</div>`:''}
+  </div>`;
+}
+
+// ─── Render: Garage summary ───
+function renderGarage(){
+  const odoEl=document.getElementById('godo-val'); if(odoEl) odoEl.textContent=D.odo.toLocaleString('id-ID');
+  const svcEl=document.getElementById('gsvc-val'); if(svcEl) svcEl.textContent=D.services.length;
+  const ts=D.services.reduce((s,r)=>{ const c=r.itemDetails?r.items.reduce((x,id)=>x+(r.itemDetails?.[id]?.cost||0),0):(r.cost||0); return s+c; },0);
+  const tm=D.expenses.reduce((s,e)=>s+(e.cost||0),0);
+  const costEl=document.getElementById('gcost-val'); if(costEl) costEl.textContent=fmt(ts+tm);
+  const items=getAllItems();
+  const ranked=items.map(it=>({it,st:getStatus(it)})).sort((a,b)=>{ const o={due:0,soon:1,none:2,ok:3}; return (o[a.st]??3)-(o[b.st]??3); });
+  const top=ranked[0];
+  if(top){
+    const icoEl=document.getElementById('gnext-icon'); if(icoEl) icoEl.innerHTML=svgFor(top.it.icon,22);
+    const nameEl=document.getElementById('gnext-name'); if(nameEl) nameEl.textContent=top.it.name;
+    const subEl=document.getElementById('gnext-sub');
+    const last=getLastSvc(top.it.id);
+    let subTxt='Belum dicatat', subCls='';
+    if(last){
+      if(top.st==='due'){subTxt='⚠ Sudah jatuh tempo';subCls='due';}
+      else if(top.st==='soon'){subTxt='Segera ganti';subCls='soon';}
+      else{ const kmLeft=top.it.km?(top.it.km-(D.odo-last.odo)):null; subTxt=kmLeft&&kmLeft>0?`${kmLeft.toLocaleString('id-ID')} km lagi`:'Ok'; subCls='ok'; }
+    }
+    if(subEl){ subEl.textContent=subTxt; subEl.className='gnext-sub '+subCls; }
+    const pill=document.getElementById('garage-next-pill');
+    if(pill){ if(top.st==='due')pill.textContent='⚠ Jatuh tempo'; else if(top.st==='soon')pill.textContent='Segera diservis'; else if(last)pill.textContent='Semua oke ✓'; else pill.textContent='Belum dicatat'; }
+  }
+}
+
+function renderAll(){ renderMaint(); renderBento(); renderExp(); renderHist(); renderStats(); renderGarage(); }
+
+// ─── Navigation ───
+function switchTab(t){
+  document.getElementById('tab-p').className='tab'+(t==='p'?' active':'');
+  document.getElementById('tab-e').className='tab'+(t==='e'?' active':'');
+  document.getElementById('pane-p').style.display=t==='p'?'':'none';
+  document.getElementById('pane-e').style.display=t==='e'?'':'none';
+}
+
+function showScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s-'+name).classList.add('active');
+  // For sesi detail, highlight the Perawatan nav button
+  const navName = name==='sesi' ? 'home' : name;
+  ['garage','home','hist','set'].forEach(n=>{
+    const el=document.getElementById('nav-'+n);
+    if(el) el.className='nav-btn'+(n===navName?' active':'');
+  });
+  if(name==='hist') renderHist();
+  if(name==='garage') renderGarage();
+  if(name==='home') renderMaint();
+  window.scrollTo(0,0);
+}
+
+function enterDashboard(){ showScreen('home'); switchTab('p'); }
+function switchSubTab(t){ /* removed */ }
+
+// ─── Session detail page ───
+function openSesiDetail(id){
+  const svc = D.services.find(s=>s.id===id);
+  if(!svc) return;
+  currentSessionId = id;
+  const allItems = getAllItems();
+  const d = new Date(svc.date);
+  const dateStr = d.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
+  const totalCost = svc.itemDetails ? svc.items.reduce((s,id)=>s+(svc.itemDetails?.[id]?.cost||0),0) : (svc.cost||0);
+
+  // accent color
+  const svcs=[...D.services].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  function getPK(ds){ const dd=new Date(ds); return `${dd.getFullYear()}-${dd.getMonth()<6?0:1}`; }
+  const pkeys=[...new Set(svcs.map(s=>getPK(s.date)))];
+  const accent = ACCENTS[pkeys.indexOf(getPK(svc.date))%ACCENTS.length]||ACCENTS[0];
+
+  document.getElementById('sesi-title').textContent='Servis '+dateStr;
+  document.getElementById('sesi-sub').textContent=svc.odo?fmtKm(svc.odo):'';
+  document.getElementById('sesi-cost').textContent=totalCost?fmt(totalCost):'Rp —';
+  document.getElementById('sesi-odo').textContent=svc.odo?fmtKm(svc.odo):'—';
+  document.getElementById('sesi-accent-dot').style.background=accent;
+
+  const noteEl=document.getElementById('sesi-note');
+  if(svc.note){ noteEl.textContent='📝 '+svc.note; noteEl.style.display=''; }
+  else { noteEl.style.display='none'; }
+
+  // Item rows — each tappable to edit cost/note
+  document.getElementById('sesi-item-list').innerHTML = svc.items.map(itemId=>{
+    const it = allItems.find(m=>m.id===itemId)||{name:itemId,icon:'wrench'};
+    const det = svc.itemDetails?.[itemId]||{};
+    const iCost = det.cost ? fmt(det.cost) : '';
+    const iNote = det.note||'';
+    return `<div class="sesi-item-card">
+      <div class="sesi-item-left" onclick="openItemEditSheet('${svc.id}','${itemId}')" style="cursor:pointer">
+        <div class="sesi-item-ico" style="border-left:3px solid ${accent}">${svgFor(it.icon,16)}</div>
+        <div class="sesi-item-info">
+          <div class="sesi-item-name">${it.name}</div>
+          ${iNote?`<div class="sesi-item-note">📝 ${iNote}</div>`:''}
+          ${!iCost?`<div class="sesi-item-add">Tap untuk tambah biaya & catatan</div>`:''}
+        </div>
+      </div>
+      <div class="sesi-item-right">
+        ${iCost?`<span class="sesi-item-cost" onclick="openItemEditSheet('${svc.id}','${itemId}')" style="cursor:pointer">${iCost}</span>`:''}
+        <button onclick="deleteItemFromSession('${svc.id}','${itemId}')" style="background:none;border:none;padding:4px;cursor:pointer;color:var(--text3);display:flex;align-items:center;border-radius:6px" title="Hapus item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+
+  showScreen('sesi');
+}
+
+function deleteCurrentSession(){
+  const svc = D.services.find(s=>s.id===currentSessionId);
+  if(!svc){ dlgAlert('Sesi tidak ditemukan'); return; }
+  const d = new Date(svc.date).toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
+  const itemNames = svc.items.map(id=>getAllItems().find(m=>m.id===id)?.name||id).join(', ');
+  const totalCost = svc.itemDetails ? svc.items.reduce((s,id)=>s+(svc.itemDetails?.[id]?.cost||0),0) : (svc.cost||0);
+  dlgConfirm(
+    'Hapus sesi servis?',
+    `📅 ${d}\n🔧 ${itemNames}${totalCost?'\n💰 '+fmt(totalCost):''}\n\nData tidak bisa dikembalikan.`,
+    'Hapus', 'danger',
+    ()=>{
+      D.services = D.services.filter(s=>s.id!==currentSessionId);
+      currentSessionId = null;
+      save(); renderAll(); showScreen('home'); switchTab('p');
+    }
+  );
+}
+
+function editCurrentSession(){
+  const svc = D.services.find(s=>s.id===currentSessionId);
+  if(!svc) return;
+  _editingSessionId = currentSessionId;
+  selSvc = [...svc.items];
+  costOn = false;
+  document.getElementById('svc-date').value = svc.date;
+  setNumVal('svc-odo', svc.odo||D.odo);
+  document.getElementById('svc-note').value = svc.note||'';
+  document.getElementById('svc-cost').value = '';
+  document.getElementById('cost-tog').className = 'toggle';
+  document.getElementById('cost-box').style.display = 'none';
+  document.getElementById('svc-chips').innerHTML = getAllItems().map(it=>`
+    <div class="chip ${selSvc.includes(it.id)?'on':''}" id="sc-${it.id}" onclick="togSvc('${it.id}')">
+      <span class="chip-icon" style="display:inline-flex;align-items:center">${svgFor(it.icon,13)}</span>
+      ${it.name}
+    </div>`).join('');
+  const delBtn=document.getElementById('svc-del-btn');
+  if(delBtn) delBtn.style.display='none';
+  openSheet('svc');
+}
+
+// ─── Item cost/note edit ───
+function openItemEditSheet(svcId, itemId){
+  _itemEditSvcId = svcId;
+  _itemEditItemId = itemId;
+  const svc = D.services.find(s=>s.id===svcId);
+  const it = getAllItems().find(m=>m.id===itemId)||{name:itemId,icon:'wrench'};
+  const det = svc?.itemDetails?.[itemId]||{};
+
+  document.getElementById('iei-title').textContent = it.name;
+  document.getElementById('iei-date').textContent = svc ? new Date(svc.date).toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'}) : '';
+  const icoEl = document.getElementById('iei-icon');
+  if(icoEl) icoEl.innerHTML = svgFor(it.icon, 20);
+
+  // Show existing cost if any, otherwise empty
+  const costInput = document.getElementById('iei-cost');
+  costInput.value = (det.cost && det.cost>0) ? addDots(det.cost) : '';
+  document.getElementById('iei-note').value = det.note||'';
+  openSheet('itemedit');
+}
+
+function saveItemEdit(){
+  const svc = D.services.find(s=>s.id===_itemEditSvcId);
+  if(!svc) return;
+  if(!svc.itemDetails) svc.itemDetails = {};
+  const cost = getNumVal('iei-cost');
+  const note = document.getElementById('iei-note').value.trim();
+  svc.itemDetails[_itemEditItemId] = { cost, note };
+  // Recalc total cost from all items
+  svc.cost = svc.items.reduce((s,id)=>s+(svc.itemDetails?.[id]?.cost||0),0);
+  save();
+  closeSheet('itemedit');
+  renderAll();
+  // Refresh session detail
+  if(currentSessionId) openSesiDetail(currentSessionId);
+}
+
+// ─── Service sheet (single-item, add to session) ───
+let _addToSessionId = null;
+
+function openServiceSheet(preselect){
+  _addToSessionId = null;
+  selSvc = preselect ? [preselect] : [];
+  document.getElementById('svc-sheet-title').textContent = 'Catat servis baru';
+  document.getElementById('svc-session-info').style.display = 'none';
+  document.getElementById('svc-date-section').style.display = '';
+  document.getElementById('svc-date').value = today();
+  setNumVal('svc-odo', D.odo);
+  document.getElementById('svc-note').value = '';
+  document.getElementById('svc-session-note').value = '';
+  document.getElementById('svc-cost').value = '';
+  _buildChips(preselect);
+  openSheet('svc');
+}
+
+function openAddToSessionSheet(){
+  _addToSessionId = currentSessionId;
+  selSvc = [];
+  const svc = D.services.find(s=>s.id===currentSessionId);
+  const dateStr = svc ? new Date(svc.date).toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'}) : '';
+  document.getElementById('svc-sheet-title').textContent = 'Tambah item ke sesi ini';
+  const info = document.getElementById('svc-session-info');
+  info.textContent = '\u{1F4C5} Sesi '+dateStr+(svc?.odo?' · '+fmtKm(svc.odo):'');
+  info.style.display = '';
+  document.getElementById('svc-date-section').style.display = 'none';
+  document.getElementById('svc-note').value = '';
+  document.getElementById('svc-cost').value = '';
+  _buildChips(null);
+  openSheet('svc');
+}
+
+function _buildChips(preselect){
+  document.getElementById('svc-chips').innerHTML = getAllItems().map(it=>`
+    <div class="chip ${selSvc.includes(it.id)?'on':''}" id="sc-${it.id}" onclick="selSvcSingle('${it.id}')">
+      <span style="display:inline-flex;align-items:center">${svgFor(it.icon,13)}</span>
+      ${it.name}
+    </div>`).join('');
+}
+
+function selSvcSingle(id){
+  selSvc = selSvc.includes(id) ? [] : [id];
+  document.querySelectorAll('[id^="sc-"]').forEach(el=>{
+    el.className = 'chip '+(selSvc.includes(el.id.replace('sc-',''))?'on':'');
+  });
+}
+
+function saveServiceItem(){
+  if(!selSvc.length){ dlgAlert('Pilih satu item perawatan'); return; }
+  const itemId = selSvc[0];
+  const cost = getNumVal('svc-cost');
+  const note = document.getElementById('svc-note').value.trim();
+  if(_addToSessionId){
+    const svc = D.services.find(s=>s.id===_addToSessionId);
+    if(!svc){ dlgAlert('Sesi tidak ditemukan'); return; }
+    if(svc.items.includes(itemId)){ dlgAlert('Item ini sudah ada di sesi ini'); return; }
+    svc.items.push(itemId);
+    if(!svc.itemDetails) svc.itemDetails = {};
+    svc.itemDetails[itemId] = {cost, note};
+    svc.cost = svc.items.reduce((s,id)=>s+(svc.itemDetails?.[id]?.cost||0),0);
+    save(); closeSheet('svc'); renderAll(); openSesiDetail(_addToSessionId);
+  } else {
+    const odo = getNumVal('svc-odo')||D.odo;
+    D.odo = Math.max(D.odo, odo);
+    const newId = Date.now().toString();
+    const itemDetails = {}; itemDetails[itemId] = {cost, note};
+    D.services.push({id:newId, items:[itemId], date:document.getElementById('svc-date').value, odo, note:document.getElementById('svc-session-note').value.trim(), cost, itemDetails});
+    save(); closeSheet('svc'); renderAll(); openSesiDetail(newId);
+  }
+}
+
+function deleteItemFromSession(svcId, itemId){
+  const svc = D.services.find(s=>s.id===svcId);
+  if(!svc) return;
+  const name = getAllItems().find(m=>m.id===itemId)?.name||itemId;
+  dlgConfirm('Hapus item ini?', '"'+name+'" akan dihapus dari sesi ini.', 'Hapus', 'danger', ()=>{
+    svc.items = svc.items.filter(id=>id!==itemId);
+    if(svc.itemDetails) delete svc.itemDetails[itemId];
+    svc.cost = svc.items.reduce((s,id)=>s+(svc.itemDetails?.[id]?.cost||0),0);
+    if(svc.items.length===0){
+      D.services = D.services.filter(s=>s.id!==svcId);
+      save(); renderAll(); showScreen('home'); switchTab('p');
+    } else {
+      save(); renderAll(); openSesiDetail(svcId);
+    }
+  });
+}
+
+// stub compat
+function saveService(){ saveServiceItem(); }
+function toggleCost(){}
+function togSvc(id){ selSvcSingle(id); }
+function deleteCurrentItem(){}
+function editCurrentSession(){}
+
+// ─── Add item sheet ───
+function openAddItemSheet(){
+  selIcon='wrench';
+  document.getElementById('newitem-name').value='';
+  document.getElementById('newitem-km').value='';
+  document.getElementById('newitem-mo').value='';
+  document.getElementById('icon-grid').innerHTML = ICONS.map(ic=>`
+    <div class="icon-opt ${ic.id===selIcon?'on':''}" id="ico-${ic.id}" onclick="selIconFn('${ic.id}')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">${ic.s}</svg>
+    </div>`).join('');
+  openSheet('item');
+}
+
+function selIconFn(id){
+  selIcon=id;
+  document.querySelectorAll('.icon-opt').forEach(el=>el.classList.remove('on'));
+  const el=document.getElementById('ico-'+id); if(el) el.classList.add('on');
+}
+
+function saveNewItem(){
+  const name=document.getElementById('newitem-name').value.trim();
+  if(!name){ dlgAlert('Masukkan nama item'); return; }
+  const km=parseInt(document.getElementById('newitem-km').value)||null;
+  const mo=parseInt(document.getElementById('newitem-mo').value)||null;
+  if(!km&&!mo){ dlgAlert('Isi minimal salah satu interval (km atau bulan)'); return; }
+  if(!D.items||!D.items.length) D.items=JSON.parse(JSON.stringify(DEFAULT_ITEMS));
+  D.items.push({id:'custom_'+Date.now(),name,icon:selIcon,km,mo,custom:true});
+  save(); closeSheet('item'); renderAll();
+  // Stay on / refresh session detail if open
+  if(currentSessionId && document.getElementById('s-sesi').classList.contains('active')){
+    openSesiDetail(currentSessionId);
+  }
+}
+
+// ─── Expense sheet ───
+function openExpSheet(){
+  expType='parkir';
+  document.getElementById('chip-pkr').className='chip on';
+  document.getElementById('chip-tol').className='chip';
+  document.getElementById('exp-date').value=today();
+  document.getElementById('exp-cost').value='';
+  document.getElementById('exp-note').value='';
+  openSheet('exp');
+}
+function selExpType(t){
+  expType=t;
+  document.getElementById('chip-pkr').className='chip '+(t==='parkir'?'on':'');
+  document.getElementById('chip-tol').className='chip '+(t==='tol'?'on':'');
+}
+function saveExp(){
+  D.expenses.push({id:Date.now().toString(),type:expType,date:document.getElementById('exp-date').value,cost:getNumVal('exp-cost'),note:document.getElementById('exp-note').value});
+  save(); closeSheet('exp'); renderAll();
+}
+function delExp(id){ D.expenses=D.expenses.filter(e=>e.id!==id); save(); renderAll(); }
+
+// ─── Settings ───
+function updateOdo(){
+  const v=getNumVal('odo-inp');
+  if(v&&v>=D.odo){ D.odo=v; save(); renderAll(); dlgAlert('Odometer diperbarui ke '+fmtKm(v)); }
+  else dlgAlert('Nilai harus lebih besar dari saat ini ('+fmtKm(D.odo)+')');
+}
+function clearAll(){
+  dlgConfirm('Hapus semua data?', 'Semua catatan servis, pengeluaran, dan item kustom akan dihapus. Tidak bisa dikembalikan.', 'Hapus semua', 'danger', ()=>{
+    D={odo:190000,services:[],expenses:[],items:JSON.parse(JSON.stringify(DEFAULT_ITEMS)),theme:D.theme};
+    currentSessionId=null; _editingSessionId=null;
+    save(); renderAll();
+  });
+}
+
+// ─── Custom dialog (replaces confirm() which is blocked on some mobile browsers) ───
+let _dlgResolve = null;
+
+function showDlg(title, msg, confirmLabel, confirmDanger){
+  return new Promise(resolve=>{
+    _dlgResolve = resolve;
+    document.getElementById('dlg-title').textContent = title;
+    document.getElementById('dlg-msg').textContent = msg;
+    const btns = document.getElementById('dlg-btns');
+    btns.innerHTML = `
+      <button onclick="hideDlg(false)" style="flex:1;padding:10px;border:0.5px solid var(--border2);border-radius:8px;background:transparent;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;margin-right:6px">Batal</button>
+      <button onclick="hideDlg(true)" style="flex:1;padding:10px;border:none;border-radius:8px;background:${confirmDanger?'#E24B4A':'var(--dark)'};color:${confirmDanger?'#fff':'var(--dark-text)'};font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">${confirmLabel||'Hapus'}</button>
+    `;
+    const ov = document.getElementById('dlg-overlay');
+    ov.style.display = 'flex';
+  });
+}
+
+function hideDlg(result){
+  document.getElementById('dlg-overlay').style.display = 'none';
+  if(_dlgResolve){ _dlgResolve(result); _dlgResolve = null; }
+}
+
+// Convenience wrappers
+function dlgAlert(msg){
+  document.getElementById('dlg-title').textContent = 'Info';
+  document.getElementById('dlg-msg').textContent = msg;
+  document.getElementById('dlg-btns').innerHTML = `
+    <button onclick="hideDlg(false)" style="flex:1;padding:10px;border:none;border-radius:8px;background:var(--dark);color:var(--dark-text);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">OK</button>
+  `;
+  document.getElementById('dlg-overlay').style.display = 'flex';
+}
+
+function dlgConfirm(title, msg, confirmLabel, style, onConfirm){
+  showDlg(title, msg, confirmLabel, style==='danger').then(ok=>{ if(ok && onConfirm) onConfirm(); });
+}
+
+
+function openSheet(id){
+  document.getElementById(id+'-overlay').classList.add('open');
+  document.getElementById(id+'-sheet').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeSheet(id){
+  document.getElementById(id+'-overlay').classList.remove('open');
+  document.getElementById(id+'-sheet').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ─── Theme ───
+const SUN_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+const MOON_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  D.theme=t;
+  const isDark=t==='dark';
+  const wrap=document.getElementById('theme-svg-wrap'); if(wrap) wrap.innerHTML=isDark?SUN_SVG:MOON_SVG;
+  const tit=document.getElementById('theme-tit'); if(tit) tit.textContent=isDark?'Light mode':'Dark mode';
+  const sub=document.getElementById('theme-sub'); if(sub) sub.textContent=isDark?'Aktifkan tampilan terang':'Aktifkan tampilan gelap';
+  const tog=document.getElementById('theme-toggle'); if(tog) tog.className='toggle '+(isDark?'on':'');
+}
+function toggleTheme(){ applyTheme(D.theme==='dark'?'light':'dark'); save(); }
+
+// ─── Init ───
+load();
+applyTheme(D.theme||'light');
+if(!D.items||!D.items.length) D.items=JSON.parse(JSON.stringify(DEFAULT_ITEMS));
+setNumVal('odo-inp', D.odo);
+setupNumInput('svc-odo');
+setupNumInput('svc-cost');
+setupNumInput('exp-cost');
+setupNumInput('odo-inp');
+setupNumInput('iei-cost');
+renderAll();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => {
+        console.log("Service Worker Registered");
+      })
+      .catch((err) => {
+        console.log("SW Error:", err);
+      });
+  });
+}
+</script>
+</body>
+</html>

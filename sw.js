@@ -1,4 +1,4 @@
-const CACHE_NAME = "latio-v3";
+const CACHE_NAME = "latio-v4";
 
 const urlsToCache = [
   "/",

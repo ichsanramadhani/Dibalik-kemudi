@@ -39,34 +39,61 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .app{max-width:430px;margin:0 auto;background:var(--bg);min-height:100vh;padding-bottom:72px}
 .screen{display:none}.screen.active{display:block}
 /* ── Onboarding ── */
-.ob-wrap{display:flex;flex-direction:column;min-height:100vh;padding:0;background:var(--bg)}
-.ob-hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px 24px;text-align:center;background:linear-gradient(180deg,var(--bg2) 0%,var(--bg) 60%)}
-.ob-logo{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.5px;margin-bottom:4px}
-.ob-logo-sub{font-size:12px;color:var(--text3);font-weight:500;letter-spacing:.5px;text-transform:uppercase;margin-bottom:32px}
-.ob-car-empty{width:80px;height:80px;background:var(--bg3);border-radius:24px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
-.ob-empty-title{font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px}
-.ob-empty-sub{font-size:13px;color:var(--text2);line-height:1.6;max-width:260px;margin:0 auto}
-.ob-bottom{padding:20px 24px 32px}
+.ob-screen{min-height:100vh;background:#e9ecf5;display:flex;flex-direction:column;padding:0;position:relative;overflow:hidden}
+.ob-screen::before{content:'';position:absolute;top:-120px;left:-80px;width:340px;height:340px;background:rgba(108,99,255,0.07);border-radius:50%;pointer-events:none}
+.ob-screen::after{content:'';position:absolute;bottom:-60px;right:-60px;width:220px;height:220px;background:rgba(67,197,158,0.07);border-radius:50%;pointer-events:none}
+.ob-top{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 24px 28px;text-align:center;width:100%;position:relative;z-index:1}
+.ob-brand{margin-bottom:36px}
+.ob-logo{font-size:28px;font-weight:800;color:#1a1a18;letter-spacing:-.8px;margin-bottom:5px}
+.ob-logo-tagline{font-size:12px;color:#8a8a8a;font-weight:500;letter-spacing:.3px}
+.ob-card{background:#fff;border-radius:28px;padding:32px 24px 28px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,0.09),0 2px 8px rgba(0,0,0,0.04);text-align:center}
+.ob-icon-wrap{width:80px;height:80px;background:#f0f1f8;border-radius:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 22px}
+.ob-empty-title{font-size:20px;font-weight:700;color:#1a1a18;margin-bottom:10px;letter-spacing:-.3px}
+.ob-empty-sub{font-size:13px;color:#777770;line-height:1.65;max-width:240px;margin:0 auto}
+.ob-card-btn{margin-top:24px;width:100%;background:#1a1a18;color:#f0efe9;border:none;border-radius:14px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:7px;transition:opacity .15s;letter-spacing:-.1px}
+.ob-card-btn:active{opacity:.8}
+.ob-bottom{width:100%;padding:0 24px 44px;position:relative;z-index:1}
+.ob-app-version{text-align:center;font-size:10px;color:#aaa;margin-bottom:12px;letter-spacing:.3px}
+[data-theme="dark"] .ob-screen{background:#0f0f0e}
+[data-theme="dark"] .ob-screen::before{background:rgba(108,99,255,0.1)}
+[data-theme="dark"] .ob-screen::after{background:rgba(67,197,158,0.08)}
+[data-theme="dark"] .ob-card{background:#1c1c1a;box-shadow:0 8px 40px rgba(0,0,0,0.4)}
+[data-theme="dark"] .ob-icon-wrap{background:#252523}
+[data-theme="dark"] .ob-logo{color:#f0efe9}
+[data-theme="dark"] .ob-empty-title{color:#f0efe9}
+[data-theme="dark"] .ob-empty-sub{color:#a0a098}
+[data-theme="dark"] .ob-bottom{background:transparent}
 
 /* ── Add Vehicle Screen ── */
-.av-wrap{min-height:100vh;background:var(--bg)}
-.av-header{display:flex;align-items:center;gap:12px;padding:14px 16px 12px;border-bottom:0.5px solid var(--border)}
-.av-back{background:var(--bg2);border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);flex-shrink:0}
-.av-header-text .av-title{font-size:15px;font-weight:700;color:var(--text)}
-.av-header-text .av-sub{font-size:11px;color:var(--text2);margin-top:1px}
-.av-body{padding:20px 16px 32px}
-.av-type-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
-.av-type-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border-radius:10px;border:1.5px solid var(--border2);background:transparent;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;transition:all .15s}
-.av-type-btn.active{background:var(--dark);color:var(--dark-text);border-color:var(--dark)}
-.av-type-btn svg{flex-shrink:0}
-.av-section-title{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;margin-top:4px}
+.av-wrap{min-height:100vh;background:#e9ecf5;display:flex;flex-direction:column}
+[data-theme="dark"] .av-wrap{background:#0f0f0e}
+.av-header{display:flex;align-items:center;gap:12px;padding:14px 16px 13px;background:#e9ecf5;border-bottom:none}
+[data-theme="dark"] .av-header{background:#0f0f0e}
+.av-back{background:rgba(0,0,0,0.07);border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#444;flex-shrink:0}
+[data-theme="dark"] .av-back{background:rgba(255,255,255,0.1);color:#ccc}
+.av-header-text .av-title{font-size:16px;font-weight:700;color:#1a1a18;letter-spacing:-.3px}
+[data-theme="dark"] .av-header-text .av-title{color:#f0efe9}
+.av-header-text .av-sub{font-size:11px;color:#888;margin-top:2px}
+.av-body{padding:8px 16px 32px;flex:1}
+.av-card{background:#fff;border-radius:20px;padding:18px 16px 20px;margin-bottom:12px;box-shadow:0 2px 16px rgba(0,0,0,0.06)}
+[data-theme="dark"] .av-card{background:#1c1c1a;box-shadow:0 2px 16px rgba(0,0,0,0.3)}
+.av-type-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.av-type-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 10px;border-radius:14px;border:1.5px solid #e0e0e8;background:#f7f7fc;font-size:12px;font-weight:600;color:#888;cursor:pointer;font-family:inherit;transition:all .2s;line-height:1}
+.av-type-btn.active{background:#1a1a18;color:#f0efe9;border-color:#1a1a18;box-shadow:0 4px 14px rgba(0,0,0,0.18)}
+.av-type-btn svg{margin-bottom:2px}
+[data-theme="dark"] .av-type-btn{background:#252523;border-color:rgba(255,255,255,0.12);color:#888}
+[data-theme="dark"] .av-type-btn.active{background:#e0dfd8;color:#1a1a18;border-color:#e0dfd8}
+.av-section-title{font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.7px;margin-bottom:12px}
 .av-form-group{margin-bottom:14px}
-.av-label{font-size:12px;font-weight:600;color:var(--text2);display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
-.av-label-opt{font-size:10px;color:var(--text3);font-weight:400}
-.av-input{width:100%;border:0.5px solid var(--border2);border-radius:10px;padding:11px 12px;font-size:14px;color:var(--text);background:var(--bg2);font-family:inherit;outline:none;transition:all .15s}
-.av-input:focus{border-color:var(--text2);background:var(--bg)}
+.av-label{font-size:12px;font-weight:600;color:#555;display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+[data-theme="dark"] .av-label{color:#a0a098}
+.av-label-opt{font-size:10px;color:#aaa;font-weight:400;font-style:italic}
+.av-input{width:100%;border:1px solid #e8e8ec;border-radius:11px;padding:12px 13px;font-size:14px;color:#1a1a18;background:#f7f7fc;font-family:inherit;outline:none;transition:all .15s}
+.av-input:focus{border-color:#1a1a18;background:#fff;box-shadow:0 0 0 3px rgba(26,26,24,0.06)}
+[data-theme="dark"] .av-input{background:#252523;color:#f0efe9;border-color:rgba(255,255,255,0.12)}
+[data-theme="dark"] .av-input:focus{background:#2e2e2b;border-color:rgba(255,255,255,0.3)}
 .av-input-suffix{position:relative}
-.av-input-suffix .av-input{padding-right:36px}
+.av-input-suffix .av-input{padding-right:38px}
 .av-input-suffix .av-unit{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text3);font-weight:500}
 .av-hint{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4}
 #s-garage,#s-home,#s-hist,#s-set,#s-sesi,#s-onboard,#s-addvehicle{background:var(--bg)}
@@ -291,9 +318,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .theme-info-text .sub{font-size:11px;color:var(--text2);margin-top:1px}
 
 /* ── Garage Landing ── */
-.garage-wrap{padding:24px 16px 20px;min-height:100vh}
+.garage-wrap{padding:0;min-height:100vh}
+.garage-topnav{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;background:var(--bg);border-bottom:0.5px solid var(--border)}
+.garage-topnav-left{}
+.garage-app-name{font-size:17px;font-weight:800;color:var(--text);letter-spacing:-.5px;line-height:1}
+.garage-app-sub{font-size:11px;color:var(--text3);font-weight:400;margin-top:1px}
+.garage-topnav-right{display:flex;align-items:center;gap:8px}
+.garage-settings-btn{background:var(--bg2);border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);transition:background .15s}
+.garage-settings-btn:hover{background:var(--bg3)}
+.garage-greeting{padding:22px 20px 16px;background:var(--bg)}
+.garage-greeting-hi{font-size:14px;color:var(--text2);margin-bottom:2px;font-weight:400}
+.garage-greeting-q{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.5px;line-height:1.25}
+.garage-greeting-q span{color:#33aaFF}
+.garage-content{padding:0 16px 20px}
 .garage-top{margin-bottom:18px}
-.garage-title{font-size:32px;font-weight:800;color:var(--text);letter-spacing:-1px;line-height:1.1}
+.garage-title{font-size:32px;font-weight:800;color:var(--text);letter-spacing:-1px;line-height:1.1;display:none}
 .garage-subtitle{font-size:14px;color:var(--text2);margin-top:4px}
 .garage-car-card{background:var(--bg);border-radius:20px;overflow:hidden;margin-bottom:14px;cursor:pointer;transition:transform .15s;box-shadow:0 2px 16px rgba(0,0,0,0.06)}
 .garage-car-card:active{transform:scale(.99)}
@@ -335,21 +374,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 <!-- GARAGE (landing) -->
 <!-- ═══ ONBOARDING — empty state ═══ -->
 <div id="s-onboard" class="screen">
-  <div class="ob-wrap">
-    <div class="ob-hero">
-      <div class="ob-logo">Dibalik Kemudi</div>
-      <div class="ob-logo-sub">Perawatan & biaya kendaraan</div>
-      <div class="ob-car-empty">
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text3)"><path d="M5 17H3a2 2 0 0 1-2-2V9l3-5h12l3 5v6a2 2 0 0 1-2 2h-2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/><path d="M1 9h22"/></svg>
+  <div class="ob-screen">
+    <div class="ob-top">
+      <div class="ob-brand">
+        <div class="ob-logo">Dibalik Kemudi</div>
+        <div class="ob-logo-tagline">Perawatan &amp; biaya kendaraan</div>
       </div>
-      <div class="ob-empty-title">Belum ada kendaraan</div>
-      <div class="ob-empty-sub">Tambah kendaraan untuk mulai mencatat perawatan, odometer, dan biaya servisnya.</div>
+      <div class="ob-card">
+        <div class="ob-icon-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="#33aaFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 30h36v4a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-4z"/>
+            <path d="M10 30l4-10h20l4 10"/>
+            <path d="M15 20l2-6h14l2 6"/>
+            <line x1="24" y1="20" x2="24" y2="30"/>
+            <circle cx="14" cy="36" r="4"/>
+            <circle cx="34" cy="36" r="4"/>
+          </svg>
+        </div>
+        <div class="ob-empty-title">Belum ada kendaraan</div>
+        <div class="ob-empty-sub">Tambah kendaraan untuk mulai mencatat perawatan, odometer, dan biaya servisnya.</div>
+        <button class="ob-card-btn" onclick="showScreen('addvehicle')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Tambah Kendaraan
+        </button>
+      </div>
     </div>
     <div class="ob-bottom">
-      <button class="btn-primary" onclick="showScreen('addvehicle')" style="font-size:14px">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="vertical-align:middle;margin-right:6px;margin-top:-2px"><path d="M12 5v14M5 12h14"/></svg>
-        Tambah Kendaraan
-      </button>
+      <div class="ob-app-version">Dibalik Kemudi v1.0</div>
     </div>
   </div>
 </div>
@@ -357,52 +408,59 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 <!-- ═══ ADD VEHICLE ═══ -->
 <div id="s-addvehicle" class="screen">
   <div class="av-wrap">
+    <!-- Header -->
     <div class="av-header">
       <button class="av-back" onclick="showScreen('onboard')">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
       <div class="av-header-text">
         <div class="av-title">Tambah Kendaraan</div>
-        <div class="av-sub">10 item perawatan dibuat otomatis</div>
+        <div class="av-sub">10 item perawatan otomatis ditambahkan</div>
       </div>
     </div>
+
     <div class="av-body">
-      <!-- Vehicle type -->
-      <div class="av-section-title">Jenis kendaraan</div>
-      <div class="av-type-row" style="margin-bottom:20px">
-        <button class="av-type-btn active" id="avtype-mobil" onclick="selectVehicleType('mobil')">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 17H3a2 2 0 0 1-2-2V9l3-5h12l3 5v6a2 2 0 0 1-2 2h-2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/><path d="M1 9h22"/></svg>
-          Mobil
-        </button>
-        <button class="av-type-btn" id="avtype-motor" onclick="selectVehicleType('motor')">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h-5l-3 6h10l-2-6z"/><path d="M12 6V3m0 0H9m3 0h2"/></svg>
-          Motor
-        </button>
-      </div>
-
-      <!-- Vehicle details -->
-      <div class="av-section-title">Detail kendaraan</div>
-      <div class="av-form-group">
-        <label class="av-label">Nama kendaraan</label>
-        <input class="av-input" type="text" id="av-name" placeholder="Contoh: Avanza 2019 / Brio RS" maxlength="40">
-      </div>
-      <div class="av-form-group">
-        <label class="av-label">
-          Plat nomor
-          <span class="av-label-opt">opsional</span>
-        </label>
-        <input class="av-input" type="text" id="av-plat" placeholder="B 1234 ABC" maxlength="12" style="text-transform:uppercase">
-      </div>
-      <div class="av-form-group">
-        <label class="av-label">Odometer saat ini</label>
-        <div class="av-input-suffix">
-          <input class="av-input" type="text" inputmode="numeric" id="av-odo" placeholder="0">
-          <span class="av-unit">km</span>
+      <!-- Type card -->
+      <div class="av-card">
+        <div class="av-section-title">Jenis kendaraan</div>
+        <div class="av-type-row">
+          <button class="av-type-btn active" id="avtype-mobil" onclick="selectVehicleType('mobil')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 30h36v4a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-4z"/><path d="M10 30l4-10h20l4 10"/><path d="M15 20l2-6h14l2 6"/><line x1="24" y1="20" x2="24" y2="30"/><circle cx="14" cy="36" r="4"/><circle cx="34" cy="36" r="4"/></svg>
+            Mobil
+          </button>
+          <button class="av-type-btn" id="avtype-motor" onclick="selectVehicleType('motor')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="34" r="7"/><circle cx="38" cy="34" r="7"/><path d="M17 34l4-12h8"/><path d="M29 22l6 3 3 9"/><path d="M26 10h6l2 4"/><path d="M26 10l-5 12"/><path d="M24 20h8"/></svg>
+            Motor
+          </button>
         </div>
-        <div class="av-hint">Dipakai untuk menghitung kapan servis berikutnya.</div>
       </div>
 
-      <button class="btn-primary" onclick="saveNewVehicle()" style="margin-top:8px;font-size:14px">
+      <!-- Detail card -->
+      <div class="av-card">
+        <div class="av-section-title">Detail kendaraan</div>
+        <div class="av-form-group">
+          <label class="av-label">Nama kendaraan</label>
+          <input class="av-input" type="text" id="av-name" placeholder="Avanza 2019 / Brio RS" maxlength="40">
+        </div>
+        <div class="av-form-group">
+          <label class="av-label">
+            Plat nomor
+            <span class="av-label-opt">opsional</span>
+          </label>
+          <input class="av-input" type="text" id="av-plat" placeholder="B 1234 ABC" maxlength="12" style="text-transform:uppercase">
+        </div>
+        <div class="av-form-group" style="margin-bottom:0">
+          <label class="av-label">Odometer saat ini</label>
+          <div class="av-input-suffix">
+            <input class="av-input" type="text" inputmode="numeric" id="av-odo" placeholder="0">
+            <span class="av-unit" style="color:#aaa;font-size:13px;font-weight:500">km</span>
+          </div>
+          <div class="av-hint" style="font-size:11px;color:#aaa;margin-top:6px">Dipakai untuk menghitung kapan servis berikutnya.</div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <button onclick="saveNewVehicle()" style="width:100%;background:#1a1a18;color:#f0efe9;border:none;border-radius:14px;padding:15px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:-.1px;transition:opacity .15s">
         Tambah Kendaraan
       </button>
     </div>
@@ -411,19 +469,34 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 
 <div id="s-garage" class="screen">
   <div class="garage-wrap">
-    <div class="garage-top">
-      <div class="garage-title">Dibalik Kemudi</div>
-      <div class="garage-subtitle">Perawatan, parkir, tol & biaya kendaraan</div>
+    <!-- Top Navigation -->
+    <div class="garage-topnav">
+      <div class="garage-topnav-left" style="display:flex;align-items:center;gap:10px">
+        <svg width="28" height="28" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M185.628 114.344C181.838 132.943 172.421 149.908 158.666 162.915C144.911 175.922 127.491 184.335 108.795 187V168.381C122.603 165.905 135.414 159.496 145.705 149.916C155.997 140.335 163.337 127.986 166.852 114.335L185.628 114.344ZM25.1389 114.344C28.6147 127.839 35.8287 140.065 45.9424 149.601C56.0561 159.138 68.6541 165.592 82.2723 168.215V186.862C63.7613 184.029 46.5595 175.559 32.9861 162.592C19.4128 149.625 10.1207 132.785 6.36271 114.344H25.1389ZM150.865 86.7513V105.141H141.719C132.334 105.141 123.307 108.767 116.506 115.27C109.706 121.774 105.652 130.656 105.182 140.08L105.146 141.919V151.113H86.8543V141.919C86.8543 132.483 83.2469 123.408 76.7782 116.571C70.3095 109.734 61.4745 105.658 52.1005 105.187L50.2714 105.141H41.1256V86.7513H150.865ZM95.9908 4C143.421 4 182.418 40.2911 187 86.7513H168.599C166.383 68.9624 157.782 52.5991 144.412 40.7358C131.042 28.8726 113.823 22.326 95.9908 22.326C78.1583 22.326 60.9394 28.8726 47.5694 40.7358C34.1994 52.5991 25.5986 68.9624 23.3829 86.7513H5C9.59116 40.2911 48.5794 4 96 4" fill="#33AAFF"/></svg>
+        <div class="garage-app-name">Dibalik Kemudi</div>
+      </div>
+      <div class="garage-topnav-right">
+        <button class="garage-settings-btn" onclick="openSheet('about')" title="Tentang aplikasi" aria-label="Tentang">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8.5" stroke-width="2.5" stroke-linecap="round"/><path d="M12 11v5"/></svg>
+        </button>
+      </div>
     </div>
+    <!-- Greeting -->
+    <div class="garage-greeting">
+      <div class="garage-greeting-hi">Halo,</div>
+      <div class="garage-greeting-q">Mau servis apa<span>hari ini?</span></div>
+    </div>
+    <!-- Content -->
+    <div class="garage-content">
     <div class="garage-car-card" onclick="enterDashboard()">
       <div class="garage-car-img">
         <img 
-          src="./assets/latio-bgg.webp"
+          src="./assets/latio-bg.webp"
           alt="Nissan Latio Hatchback Silver"
           style="width:100%;height:100%;object-fit:cover;object-position:center"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
         />
-        <div style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:120px">🚘</div>
+        <div style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:72px">🚗</div>
         
       </div>
       <div class="garage-car-footer">
@@ -480,6 +553,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
         </div>
       </div>
     </div>
+    </div><!-- /garage-content -->
   </div>
 </div>
 
@@ -765,6 +839,74 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     </button>
   </div>
 </div>
+<!-- ABOUT SHEET -->
+<div class="sheet-overlay" id="about-overlay" onclick="closeSheet('about')"></div>
+<div class="sheet" id="about-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-inner">
+    <div class="sheet-title">
+      Tentang Dibalik Kemudi
+      <button class="sheet-close" onclick="closeSheet('about')"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg></button>
+    </div>
+    <!-- App icon + name -->
+    <div style="display:flex;align-items:center;gap:14px;padding:4px 0 20px">
+      <div style="width:56px;height:56px;background:#e8f5ff;border-radius:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="34" height="34" viewBox="0 0 192 192" fill="none"><path d="M185.628 114.344C181.838 132.943 172.421 149.908 158.666 162.915C144.911 175.922 127.491 184.335 108.795 187V168.381C122.603 165.905 135.414 159.496 145.705 149.916C155.997 140.335 163.337 127.986 166.852 114.335L185.628 114.344ZM25.1389 114.344C28.6147 127.839 35.8287 140.065 45.9424 149.601C56.0561 159.138 68.6541 165.592 82.2723 168.215V186.862C63.7613 184.029 46.5595 175.559 32.9861 162.592C19.4128 149.625 10.1207 132.785 6.36271 114.344H25.1389ZM150.865 86.7513V105.141H141.719C132.334 105.141 123.307 108.767 116.506 115.27C109.706 121.774 105.652 130.656 105.182 140.08L105.146 141.919V151.113H86.8543V141.919C86.8543 132.483 83.2469 123.408 76.7782 116.571C70.3095 109.734 61.4745 105.658 52.1005 105.187L50.2714 105.141H41.1256V86.7513H150.865ZM95.9908 4C143.421 4 182.418 40.2911 187 86.7513H168.599C166.383 68.9624 157.782 52.5991 144.412 40.7358C131.042 28.8726 113.823 22.326 95.9908 22.326C78.1583 22.326 60.9394 28.8726 47.5694 40.7358C34.1994 52.5991 25.5986 68.9624 23.3829 86.7513H5C9.59116 40.2911 48.5794 4 96 4" fill="#33AAFF"/></svg>
+      </div>
+      <div>
+        <div style="font-size:17px;font-weight:800;color:var(--text);letter-spacing:-.4px">Dibalik Kemudi</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:2px">Versi 1.0</div>
+      </div>
+    </div>
+    <!-- Description -->
+    <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:20px">
+      <b style="color:var(--text)">Dibalik Kemudi</b> adalah aplikasi catatan perawatan kendaraan pribadi yang bisa kamu simpan langsung di HP — tanpa akun, tanpa server, semua data tersimpan di perangkatmu sendiri.
+    </div>
+    <!-- Feature list -->
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:32px;height:32px;background:var(--bg2);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#33AAFF" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--text)">Catat servis &amp; perawatan</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:1px">Simpan riwayat servis, biaya, dan estimasi jadwal berikutnya</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:32px;height:32px;background:var(--bg2);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#33AAFF" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--text)">Catat parkir &amp; tol</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:1px">Rekam pengeluaran harian parkir dan tol</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:32px;height:32px;background:var(--bg2);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#33AAFF" stroke-width="2" stroke-linecap="round"><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M12 2a10 10 0 1 0 10 10"/><path d="M19.79 7.79l-2.83 2.83"/></svg>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--text)">Monitor odometer</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:1px">Pantau jarak tempuh dan kapan servis berikutnya</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:32px;height:32px;background:var(--bg2);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#33AAFF" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--text)">Privasi terjaga</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:1px">Semua data tersimpan lokal di HP kamu, tidak dikirim ke server manapun</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:11px;color:var(--text3);padding-top:12px;border-top:0.5px solid var(--border)">
+      Dibuat dengan ❤️ untuk para pengguna kendaraan Indonesia
+    </div>
+  </div>
+</div>
+
 <!-- ADD ITEM SHEET -->
 <div class="sheet-overlay" id="item-overlay" onclick="closeSheet('item')"></div>
 <div class="sheet" id="item-sheet">
@@ -922,7 +1064,7 @@ const DEFAULT_ITEMS = [
   {id:'aki',name:'Aki',icon:'battery',km:null,mo:36,custom:false},
 ];
 
-const ACCENTS = ['#6C63FF','#FF6584','#43C59E','#F4A261','#4ECDC4','#E76F51','#A8DADC'];
+const ACCENTS = ['#33AAFF','#FF6584','#43C59E','#F4A261','#4ECDC4','#E76F51','#A8DADC'];
 
 // ─── State ───
 let D = {odo:190000,services:[],expenses:[],items:[],theme:'light'};
@@ -1538,6 +1680,13 @@ function selectVehicleType(type){
   _vehicleType = type;
   document.getElementById('avtype-mobil').className = 'av-type-btn' + (type==='mobil'?' active':'');
   document.getElementById('avtype-motor').className = 'av-type-btn' + (type==='motor'?' active':'');
+  // Update placeholder based on type
+  const nameInput = document.getElementById('av-name');
+  if(nameInput){
+    nameInput.placeholder = type==='motor'
+      ? 'Vario 150 2020 / NMAX'
+      : 'Avanza 2019 / Brio RS';
+  }
 }
 
 function saveNewVehicle(){
@@ -1667,15 +1816,11 @@ if(!D.vehicle){
 loadSettingsScreen();
 </script>
 <script>
-if ("serviceWorker" in navigator) {
+if ("serviceWorker" in navigator && !location.hostname.includes('claudeusercontent')) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("./sw.js")
-      .then(() => {
-        console.log("Service Worker Registered");
-      })
-      .catch((err) => {
-        console.log("SW Error:", err);
-      });
+      .then(() => console.log("Service Worker Registered"))
+      .catch((err) => console.log("SW Error:", err));
   });
 }
 </script>

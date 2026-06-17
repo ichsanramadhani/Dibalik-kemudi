@@ -16,13 +16,23 @@
 
 <style>
 [data-theme="light"] {
-  --bg:#ffffff;--bg2:#f5f5f3;--bg3:#eae9e5;
+  --bg:#ffffff;--bg2:#f0f0ee;--bg3:#e4e4e0;
   --text:#1a1a18;--text2:#666660;--text3:#a0a098;
   --border:rgba(0,0,0,0.09);--border2:rgba(0,0,0,0.18);
-  --success:#33aaFF;--warning:#854F0B;--danger:#A32D2D;--info:#185FA5;
+  --success:#3B6D11;--warning:#854F0B;--danger:#A32D2D;--info:#185FA5;
   --bg-success:#EAF3DE;--bg-warning:#FAEEDA;--bg-danger:#FCEBEB;--bg-info:#E6F1FB;
   --dark:#2C2C2A;--dark-text:#D3D1C7;
   --sheet-overlay:rgba(0,0,0,0.45);
+  /* Liquid glass */
+  --glass-bg: rgba(255,255,255,0.50);
+  --glass-bg-strong: rgba(255,255,255,0.68);
+  --glass-border: rgba(255,255,255,0.85);
+  --glass-border2: rgba(255,255,255,0.5);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+  --glass-shadow-sm: 0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.05);
+  --glass-blur: blur(18px) saturate(180%);
+  --glass-blur-sm: blur(12px) saturate(160%);
+  --page-bg: linear-gradient(160deg, #c8d8f0 0%, #ddd4f0 35%, #c4e8dc 70%, #d0d8f4 100%);
 }
 [data-theme="dark"] {
   --bg:#1c1c1a;--bg2:#252523;--bg3:#2e2e2b;
@@ -32,11 +42,21 @@
   --bg-success:#1a3d06;--bg-warning:#412402;--bg-danger:#501313;--bg-info:#042C53;
   --dark:#D3D1C7;--dark-text:#2C2C2A;
   --sheet-overlay:rgba(0,0,0,0.6);
+  /* Liquid glass dark */
+  --glass-bg: rgba(20,20,18,0.50);
+  --glass-bg-strong: rgba(22,22,20,0.70);
+  --glass-border: rgba(255,255,255,0.13);
+  --glass-border2: rgba(255,255,255,0.08);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 1.5px 6px rgba(0,0,0,0.25);
+  --glass-shadow-sm: 0 4px 16px rgba(0,0,0,0.28), 0 1px 4px rgba(0,0,0,0.18);
+  --glass-blur: blur(18px) saturate(180%);
+  --glass-blur-sm: blur(12px) saturate(160%);
+  --page-bg: linear-gradient(160deg, #0d1220 0%, #160d1e 35%, #0a1812 70%, #0f1020 100%);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:var(--bg)}
+html,body{height:100%;background:var(--page-bg);background-attachment:fixed}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;color:var(--text);overflow-x:hidden}
-.app{max-width:430px;margin:0 auto;background:var(--bg);min-height:100vh;padding-bottom:72px}
+.app{max-width:430px;margin:0 auto;background:transparent;min-height:100vh;padding-bottom:88px}
 .screen{display:none}.screen.active{display:block}
 /* ── Onboarding ── */
 .ob-screen{min-height:100vh;background:#e9ecf5;display:flex;flex-direction:column;padding:0;position:relative;overflow:hidden}
@@ -96,12 +116,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .av-input-suffix .av-input{padding-right:38px}
 .av-input-suffix .av-unit{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text3);font-weight:500}
 .av-hint{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4}
-#s-garage,#s-home,#s-hist,#s-set,#s-sesi,#s-onboard,#s-addvehicle{background:var(--bg)}
+#s-garage,#s-home,#s-hist,#s-set,#s-sesi{background:transparent}
+#s-onboard,#s-addvehicle{background:transparent}
 #s-sesi{padding-bottom:80px}
 
 /* Car Header */
 .car-header{padding:14px 16px 0}
-.car-row{background:var(--bg);border:0.5px solid var(--border2);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.car-row{background:var(--glass-bg-strong);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:12px;margin-bottom:12px;box-shadow:var(--glass-shadow-sm)}
 .car-avatar{width:46px;height:46px;background:var(--bg2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
 .car-name{font-size:14px;font-weight:700;color:var(--text)}
 .car-sub{font-size:11px;color:var(--text2);margin-top:2px}
@@ -110,7 +131,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 
 /* Stats */
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px;margin-bottom:12px}
-.stat-card{background:var(--bg2);border-radius:10px;padding:11px 13px}
+.stat-card{background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:14px;padding:11px 13px;box-shadow:var(--glass-shadow-sm)}
 .stat-label{font-size:11px;color:var(--text2);margin-bottom:3px}
 .stat-val{font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.5px}
 .stat-val.red{color:var(--danger)}.stat-val.green{color:var(--success)}
@@ -131,7 +152,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 
 /* Maint Grid */
 .maint-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.maint-card{background:var(--bg);border:0.5px solid var(--border);border-radius:14px;padding:12px;cursor:pointer;transition:all .15s;position:relative}
+.maint-card{background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:16px;padding:12px;cursor:pointer;transition:all .15s;position:relative;box-shadow:var(--glass-shadow-sm)}
 .maint-card:hover{border-color:var(--border2)}.maint-card:active{transform:scale(.98)}
 .maint-card.due{border-color:#E24B4A;border-width:1px}.maint-card.soon{border-color:#EF9F27;border-width:1px}
 .maint-icon{width:22px;height:22px;margin-bottom:8px;display:flex;align-items:center;color:var(--text3)}
@@ -145,7 +166,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 
 /* Expense */
 .exp-list{display:flex;flex-direction:column;gap:6px}
-.exp-item{background:var(--bg);border:0.5px solid var(--border);border-radius:14px;padding:10px 13px;display:flex;align-items:center;gap:10px}
+.exp-item{background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:14px;padding:10px 13px;display:flex;align-items:center;gap:10px;box-shadow:var(--glass-shadow-sm)}
 .exp-ico{width:22px;text-align:center;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .exp-ico svg{width:16px;height:16px;stroke:var(--text2);stroke-width:1.8;fill:none}
 .exp-info{flex:1;min-width:0}
@@ -160,7 +181,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 
 /* History */
 .hist-list{display:flex;flex-direction:column;gap:6px}
-.hist-item{background:var(--bg);border:0.5px solid var(--border);border-radius:14px;padding:11px 13px}
+.hist-item{background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:14px;padding:11px 13px;box-shadow:var(--glass-shadow-sm)}
 .hist-row1{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;gap:8px}
 .hist-name{font-size:12px;font-weight:600;color:var(--text);flex:1;min-width:0;line-height:1.4}
 .hist-cost{font-size:12px;font-weight:700;color:var(--text);flex-shrink:0}
@@ -173,7 +194,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .b-tol{background:var(--bg-success);color:var(--success)}
 
 /* Bottom Nav */
-.bot-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--bg);border-top:0.5px solid var(--border2);display:flex;align-items:stretch;padding-bottom:env(safe-area-inset-bottom,0);z-index:50;height:66px}
+.bot-nav{position:fixed;bottom:env(safe-area-inset-bottom,16px);bottom:calc(16px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:398px;background:var(--glass-bg-strong);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);border-radius:24px;display:flex;align-items:stretch;z-index:50;height:62px;box-shadow:var(--glass-shadow)}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:9px;font-weight:600;color:var(--text3);cursor:pointer;padding:8px 2px 6px;border:none;background:none;font-family:inherit;user-select:none;transition:color .15s;position:relative;letter-spacing:.3px;text-transform:uppercase}
 .nav-btn.active{color:var(--text)}
 .nav-btn svg{width:26px;height:26px;stroke:currentColor;stroke-width:1.6;fill:none;transition:all .15s}
@@ -182,12 +203,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .nav-btn.active .nav-dot{opacity:1}
 
 /* Form */
-.form-screen{padding:0 16px 20px}
+.form-screen{padding:0 16px 20px;background:transparent}
 .page-title{font-size:16px;font-weight:700;color:var(--text);padding:14px 0 12px}
 .form-label{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:.4px}
 .form-group{margin-bottom:14px}
-.form-input{width:100%;border:0.5px solid var(--border2);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--text);background:var(--bg2);font-family:inherit;outline:none;transition:all .15s}
-.form-input:focus{border-color:var(--text2);background:var(--bg)}
+.form-input{width:100%;border:1px solid var(--glass-border2);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--text);background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);font-family:inherit;outline:none;transition:all .15s}
+.form-input:focus{border-color:rgba(51,170,255,0.6);background:var(--glass-bg-strong);box-shadow:0 0 0 3px rgba(51,170,255,0.12)}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .form-hint{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4}
 
@@ -220,7 +241,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 /* Sheet */
 .sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:100;pointer-events:none;transition:background .3s}
 .sheet-overlay.open{background:var(--sheet-overlay);pointer-events:all}
-.sheet{position:fixed;bottom:0;left:0;right:0;width:100%;background:var(--bg);border-radius:22px 22px 0 0;z-index:101;transform:translateY(105%);transition:transform .35s cubic-bezier(.32,.72,0,1);max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:env(safe-area-inset-bottom,16px)}
+.sheet{position:fixed;bottom:0;left:0;right:0;width:100%;background:var(--glass-bg-strong);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);border-bottom:none;border-radius:26px 26px 0 0;z-index:101;transform:translateY(105%);transition:transform .35s cubic-bezier(.32,.72,0,1);max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:env(safe-area-inset-bottom,16px);box-shadow:0 -4px 32px rgba(0,0,0,0.12)}
 .sheet.open{transform:translateY(0)}
 .sheet-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:14px auto 0}
 .sheet-inner{padding:16px 18px 24px;max-width:430px;margin:0 auto}
@@ -241,24 +262,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .subtab{background:none;border:none;font-family:inherit;font-size:12px;font-weight:600;color:var(--text3);padding:7px 14px;border-radius:20px;cursor:pointer;transition:all .15s}
 .subtab.active{background:var(--dark);color:var(--dark-text)}
 
-/* Update Banner */
-.update-banner{
-  position:fixed;
-  bottom:90px;
-  left:16px;
-  right:16px;
-
-  background:#111827;
-  color:#fff;
-
-  border-radius:16px;
-  padding:16px;
-
-  display:none;
-
-  z-index:9999;
-}
-
 /* Bento grid */
 .bento-group{margin-bottom:20px}
 .bento-period{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;padding:0 2px}
@@ -266,8 +269,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .bento-row.cols-1{grid-template-columns:1fr}
 .bento-row.cols-2{grid-template-columns:1fr 1fr}
 .bento-row.cols-3{grid-template-columns:1fr 1fr 1fr}
-.bento-card{background:var(--bg);border:0.5px solid var(--border);border-radius:14px;padding:13px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
-.bento-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+.bento-card{background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:16px;padding:13px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden;box-shadow:var(--glass-shadow-sm)}
+.bento-card:hover{border-color:var(--glass-border);transform:translateY(-2px);box-shadow:var(--glass-shadow)}
 .bento-card:active{transform:scale(.97)}
 .bento-card.big{padding:16px}
 .bento-card-date{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:6px;display:flex;align-items:center;gap:5px}
@@ -311,8 +314,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 [data-theme="dark"] .bento-del-btn{color:var(--danger);background:var(--bg-danger)}
 
 /* Session detail item cards */
-.sesi-item-card{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:0.5px solid var(--border);border-radius:12px;padding:11px 12px;cursor:pointer;transition:all .15s;gap:8px}
-.sesi-item-card:hover{border-color:var(--border2);background:var(--bg2)}
+.sesi-item-card{display:flex;align-items:center;justify-content:space-between;background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:14px;padding:11px 12px;cursor:pointer;transition:all .15s;gap:8px;box-shadow:var(--glass-shadow-sm)}
+.sesi-item-card:hover{border-color:var(--glass-border);background:var(--glass-bg-strong)}
 .sesi-item-card:active{transform:scale(.98)}
 .sesi-item-left{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
 .sesi-item-ico{width:36px;height:36px;background:var(--bg2);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--text2);flex-shrink:0;overflow:hidden}
@@ -337,21 +340,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 
 /* ── Garage Landing ── */
 .garage-wrap{padding:0;min-height:100vh}
-.garage-topnav{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;background:var(--bg);border-bottom:0.5px solid var(--border)}
+.garage-topnav{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;background:transparent;border-bottom:none}
+.garage-topnav-left{}
 .garage-app-name{font-size:17px;font-weight:800;color:var(--text);letter-spacing:-.5px;line-height:1}
 .garage-app-sub{font-size:11px;color:var(--text3);font-weight:400;margin-top:1px}
 .garage-topnav-right{display:flex;align-items:center;gap:8px}
-.garage-settings-btn{background:var(--bg2);border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);transition:background .15s}
-.garage-settings-btn:hover{background:var(--bg3)}
+.garage-settings-btn{background:var(--bg2);border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);transition:color .15s;padding:0}
+.garage-settings-btn:hover{color:var(--text)}
 .garage-greeting{padding:22px 20px 16px;background:var(--bg)}
 .garage-greeting-hi{font-size:14px;color:var(--text2);margin-bottom:2px;font-weight:400}
 .garage-greeting-q{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.5px;line-height:1.25}
-.garage-greeting-q span{color:#33aaFF}
+.garage-greeting-q span{color:#6C63FF}
 .garage-content{padding:0 16px 20px}
 .garage-top{margin-bottom:18px}
 .garage-title{font-size:32px;font-weight:800;color:var(--text);letter-spacing:-1px;line-height:1.1;display:none}
 .garage-subtitle{font-size:14px;color:var(--text2);margin-top:4px}
-.garage-car-card{background:var(--bg);border-radius:20px;overflow:hidden;margin-bottom:14px;cursor:pointer;transition:transform .15s;box-shadow:0 2px 16px rgba(0,0,0,0.06)}
+.garage-car-card{background:var(--glass-bg-strong);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);border-radius:22px;overflow:hidden;margin-bottom:14px;cursor:pointer;transition:transform .15s;box-shadow:var(--glass-shadow)}
 .garage-car-card:active{transform:scale(.99)}
 .garage-car-img{background:#d8d8dc;height:220px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 [data-theme="dark"] .garage-car-img{background:#252528}
@@ -363,7 +367,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .garage-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;align-items:stretch}
 .garage-col{display:flex;flex-direction:column;gap:10px}
 .garage-col{display:flex;flex-direction:column;gap:10px}
-.garage-stat-card{background:var(--bg);border-radius:16px;padding:14px;box-shadow:0 1px 8px rgba(0,0,0,0.04)}
+.garage-stat-card{background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:16px;padding:14px;box-shadow:var(--glass-shadow-sm)}
 .garage-stat-card.stretch{height:100%;display:flex;flex-direction:column}
 .garage-stat-wide{cursor:pointer;transition:transform .15s;height:100%;display:flex;flex-direction:column}
 .garage-stat-wide:active{transform:scale(.99)}
@@ -379,14 +383,59 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .garage-see-all svg{flex-shrink:0;stroke:var(--text3)}
 .garage-big-val{font-size:24px;font-weight:800;color:var(--text);letter-spacing:-1px;line-height:1}
 .garage-unit{font-size:13px;font-weight:500;color:var(--text2);letter-spacing:0}
-.garage-cost-card{background:var(--bg);border-radius:16px;padding:14px;cursor:pointer;transition:transform .15s;box-shadow:0 1px 8px rgba(0,0,0,0.04)}
+.garage-cost-card{background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:16px;padding:14px;cursor:pointer;transition:transform .15s;box-shadow:var(--glass-shadow-sm)}
 .garage-cost-card:active{transform:scale(.99)}
 .garage-cost-val{font-size:28px;font-weight:800;color:var(--text);letter-spacing:-1px}
 .garage-arrow-circle{width:34px;height:34px;background:var(--bg2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text2);flex-shrink:0}
+
+/* ── Filter chips ── */
+.flt-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:20px;border:1px solid var(--glass-border2);background:var(--glass-bg-strong);font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;transition:all .15s}
+.flt-chip.flt-chip-on{background:#6C63FF;color:#fff;border-color:#6C63FF}
+.flt-chip:active{transform:scale(.96)}
+.rh-row{display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:default;transition:background .15s}
+.rh-row[onclick]{cursor:pointer}
+.rh-row[onclick]:active{background:var(--glass-bg-strong)}
+.rh-icon-wrap{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rh-icon-servis{background:rgba(51,170,255,0.12);color:#33AAFF}
+.rh-icon-parkir{background:rgba(108,99,255,0.1);color:#6C63FF}
+.rh-icon-tol{background:rgba(67,197,158,0.12);color:#43C59E}
+.rh-info{flex:1;min-width:0}
+.rh-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rh-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.rh-right{text-align:right;flex-shrink:0}
+.rh-cost{font-size:13px;font-weight:700;color:var(--text);letter-spacing:-.2px}
+.rh-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px;margin-top:3px;display:inline-block}
+.rh-badge-servis{background:rgba(51,170,255,0.12);color:#33AAFF}
+.rh-badge-parkir{background:rgba(108,99,255,0.1);color:#6C63FF}
+.rh-badge-tol{background:rgba(67,197,158,0.12);color:#43C59E}
+.app::before{content:'';position:fixed;top:-15vh;right:-10vw;width:55vw;height:55vw;max-width:280px;max-height:280px;background:radial-gradient(circle,rgba(108,99,255,0.18) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:0}
+.app::after{content:'';position:fixed;bottom:15vh;left:-8vw;width:50vw;height:50vw;max-width:240px;max-height:240px;background:radial-gradient(circle,rgba(51,170,255,0.15) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:0}
+.app-blob3{position:fixed;bottom:40vh;right:-5vw;width:40vw;height:40vw;max-width:200px;max-height:200px;background:radial-gradient(circle,rgba(67,197,158,0.2) 0%,rgba(67,197,158,0.05) 50%,transparent 70%);border-radius:50%;pointer-events:none;z-index:0;animation:blob3 12s ease-in-out infinite}
+.screen.active{position:relative;z-index:1}
+/* Garage greeting glass bg */
+.garage-greeting{padding:18px 20px 14px;background:transparent}
+/* Garage topnav */
+.garage-topnav-left,.garage-topnav-right{position:relative;z-index:1}
+/* Make section backgrounds transparent */
+.section{background:transparent}
+.stats-grid,.tab-bar{position:relative;z-index:1}
+/* chip glass */
+.chip{background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border2)}
+.chip.on{background:var(--dark);backdrop-filter:none}
+/* bei-row glass */
+.bei-row{background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border2)}
+/* bento chip glass */
+.bento-chip{background:var(--glass-bg-strong);border:1px solid var(--glass-border2);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm)}
+/* settings blocks */
+.set-block{background:transparent}
+/* dlg glass */
+.dlg-box{background:var(--glass-bg-strong);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border)}
+/* nav active indicator */
+.nav-btn.active .nav-dot{background:var(--text)}
 </style>
 </head>
 <body>
-<div class="app">
+<div class="app"><div class="app-blob3"></div>
 
 <!-- GARAGE (landing) -->
 <!-- ═══ ONBOARDING — empty state ═══ -->
@@ -395,11 +444,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     <div class="ob-top">
       <div class="ob-brand">
         <div class="ob-logo">Dibalik Kemudi</div>
-        <div class="ob-logo-tagline">Perawatan &amp; biaya kendaraan</div>
+        <div class="ob-logo-tagline" data-i18n="appSub">Perawatan &amp; biaya kendaraan</div>
       </div>
       <div class="ob-card">
         <div class="ob-icon-wrap">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="#33aaFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="#6C63FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 30h36v4a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-4z"/>
             <path d="M10 30l4-10h20l4 10"/>
             <path d="M15 20l2-6h14l2 6"/>
@@ -408,8 +457,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
             <circle cx="34" cy="36" r="4"/>
           </svg>
         </div>
-        <div class="ob-empty-title">Belum ada kendaraan</div>
-        <div class="ob-empty-sub">Tambah kendaraan untuk mulai mencatat perawatan, odometer, dan biaya servisnya.</div>
+        <div class="ob-empty-title" data-i18n="ob_empty_title">Belum ada kendaraan</div>
+        <div class="ob-empty-sub" data-i18n="ob_empty_sub">Tambah kendaraan untuk mulai mencatat perawatan, odometer, dan biaya servisnya.</div>
         <button class="ob-card-btn" onclick="showScreen('addvehicle')">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
           Tambah Kendaraan
@@ -431,15 +480,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
       <div class="av-header-text">
-        <div class="av-title">Tambah Kendaraan</div>
-        <div class="av-sub">10 item perawatan otomatis ditambahkan</div>
+        <div class="av-title" data-i18n="av_title">Tambah Kendaraan</div>
+        <div class="av-sub" data-i18n="av_sub">10 item perawatan otomatis ditambahkan</div>
       </div>
     </div>
 
     <div class="av-body">
       <!-- Type card -->
       <div class="av-card">
-        <div class="av-section-title">Jenis kendaraan</div>
+        <div class="av-section-title" data-i18n="av_type">Jenis kendaraan</div>
         <div class="av-type-row">
           <button class="av-type-btn active" id="avtype-mobil" onclick="selectVehicleType('mobil')">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 30h36v4a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-4z"/><path d="M10 30l4-10h20l4 10"/><path d="M15 20l2-6h14l2 6"/><line x1="24" y1="20" x2="24" y2="30"/><circle cx="14" cy="36" r="4"/><circle cx="34" cy="36" r="4"/></svg>
@@ -454,9 +503,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 
       <!-- Detail card -->
       <div class="av-card">
-        <div class="av-section-title">Detail kendaraan</div>
+        <div class="av-section-title" data-i18n="av_detail">Detail kendaraan</div>
         <div class="av-form-group">
-          <label class="av-label">Nama kendaraan</label>
+          <label class="av-label" data-i18n="av_name">Nama kendaraan</label>
           <input class="av-input" type="text" id="av-name" placeholder="Avanza 2019 / Brio RS" maxlength="40">
         </div>
         <div class="av-form-group">
@@ -467,12 +516,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
           <input class="av-input" type="text" id="av-plat" placeholder="B 1234 ABC" maxlength="12" style="text-transform:uppercase">
         </div>
         <div class="av-form-group" style="margin-bottom:0">
-          <label class="av-label">Odometer saat ini</label>
+          <label class="av-label" data-i18n="av_odo">Odometer saat ini</label>
           <div class="av-input-suffix">
             <input class="av-input" type="text" inputmode="numeric" id="av-odo" placeholder="0">
             <span class="av-unit" style="color:#aaa;font-size:13px;font-weight:500">km</span>
           </div>
-          <div class="av-hint" style="font-size:11px;color:#aaa;margin-top:6px">Dipakai untuk menghitung kapan servis berikutnya.</div>
+          <div class="av-hint" style="font-size:11px;color:#aaa;margin-top:6px" data-i18n="av_odo_hint">Dipakai untuk menghitung kapan servis berikutnya.</div>
         </div>
       </div>
 
@@ -489,7 +538,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     <!-- Top Navigation -->
     <div class="garage-topnav">
       <div class="garage-topnav-left" style="display:flex;align-items:center;gap:10px">
-        <svg width="28" height="28" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M185.628 114.344C181.838 132.943 172.421 149.908 158.666 162.915C144.911 175.922 127.491 184.335 108.795 187V168.381C122.603 165.905 135.414 159.496 145.705 149.916C155.997 140.335 163.337 127.986 166.852 114.335L185.628 114.344ZM25.1389 114.344C28.6147 127.839 35.8287 140.065 45.9424 149.601C56.0561 159.138 68.6541 165.592 82.2723 168.215V186.862C63.7613 184.029 46.5595 175.559 32.9861 162.592C19.4128 149.625 10.1207 132.785 6.36271 114.344H25.1389ZM150.865 86.7513V105.141H141.719C132.334 105.141 123.307 108.767 116.506 115.27C109.706 121.774 105.652 130.656 105.182 140.08L105.146 141.919V151.113H86.8543V141.919C86.8543 132.483 83.2469 123.408 76.7782 116.571C70.3095 109.734 61.4745 105.658 52.1005 105.187L50.2714 105.141H41.1256V86.7513H150.865ZM95.9908 4C143.421 4 182.418 40.2911 187 86.7513H168.599C166.383 68.9624 157.782 52.5991 144.412 40.7358C131.042 28.8726 113.823 22.326 95.9908 22.326C78.1583 22.326 60.9394 28.8726 47.5694 40.7358C34.1994 52.5991 25.5986 68.9624 23.3829 86.7513H5C9.59116 40.2911 48.5794 4 96 4" fill="#33AAFF"/></svg>
+        <svg width="28" height="28" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M185.628 114.344C181.838 132.943 172.421 149.908 158.666 162.915C144.911 175.922 127.491 184.335 108.795 187V168.381C122.603 165.905 135.414 159.496 145.705 149.916C155.997 140.335 163.337 127.986 166.852 114.335L185.628 114.344ZM25.1389 114.344C28.6147 127.839 35.8287 140.065 45.9424 149.601C56.0561 159.138 68.6541 165.592 82.2723 168.215V186.862C63.7613 184.029 46.5595 175.559 32.9861 162.592C19.4128 149.625 10.1207 132.785 6.36271 114.344H25.1389ZM150.865 86.7513V105.141H141.719C132.334 105.141 123.307 108.767 116.506 115.27C109.706 121.774 105.652 130.656 105.182 140.08L105.146 141.919V151.113H86.8543V141.919C86.8543 132.483 83.2469 123.408 76.7782 116.571C70.3095 109.734 61.4745 105.658 52.1005 105.187L50.2714 105.141H41.1256V86.7513H150.865ZM95.9908 4C143.421 4 182.418 40.2911 187 86.7513H168.599C166.383 68.9624 157.782 52.5991 144.412 40.7358C131.042 28.8726 113.823 22.326 95.9908 22.326C78.1583 22.326 60.9394 28.8726 47.5694 40.7358C34.1994 52.5991 25.5986 68.9624 23.3829 86.7513H5C9.59116 40.2911 48.5794 4 96 4" fill="currentColor"/></svg>
         <div class="garage-app-name">Dibalik Kemudi</div>
       </div>
       <div class="garage-topnav-right">
@@ -500,8 +549,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     </div>
     <!-- Greeting -->
     <div class="garage-greeting">
-      <div class="garage-greeting-hi">Halo,</div>
-      <div class="garage-greeting-q">Mau servis apa hari ini?</div>
+      <div class="garage-greeting-hi" id="greeting-hi">Halo,</div>
+      <div class="garage-greeting-q"><span id="greeting-q">Mau catat apa</span><span id="greeting-q2" style="color:#6C63FF"> hari ini?</span></div>
     </div>
     <!-- Content -->
     <div class="garage-content">
@@ -527,13 +576,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
       <div class="garage-stat-card garage-stat-wide" onclick="enterDashboard()">
         <div class="garage-stat-top">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-          <span>SERVIS</span>
+          <span data-i18n="nav_garservis">SERVIS</span>
         </div>
         <div class="garage-next-svc" id="garage-next-svc">
           <div class="gnext-icon" id="gnext-icon" style="color:var(--text2)"></div>
           <div>
             <div class="gnext-name" id="gnext-name">Oli mesin</div>
-            <div class="gnext-sub" id="gnext-sub">Belum dicatat</div>
+            <div class="gnext-sub" id="gnext-sub" data-i18n="lbl_not_logged">Belum dicatat</div>
           </div>
         </div>
         <div class="garage-see-all" id="garage-see-all">
@@ -545,23 +594,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
         <div class="garage-stat-card">
           <div class="garage-stat-top">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M12 2a10 10 0 1 0 10 10"/><path d="M19.79 7.79l-2.83 2.83"/></svg>
-            <span>ODOMETER</span>
+            <span data-i18n="lbl_odo">ODOMETER</span>
           </div>
           <div class="garage-big-val"><span id="godo-val">190.000</span> <span class="garage-unit">km</span></div>
         </div>
         <div class="garage-stat-card">
           <div class="garage-stat-top">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"/></svg>
-            <span>RIWAYAT</span>
+            <span data-i18n="lbl_history">RIWAYAT</span>
           </div>
-          <div class="garage-big-val"><span id="gsvc-val">0</span> <span class="garage-unit">servis</span></div>
+          <div class="garage-big-val"><span id="gsvc-val">0</span> <span class="garage-unit" data-i18n="lbl_services">servis</span></div>
         </div>
       </div>
     </div>
     <div class="garage-cost-card" onclick="enterDashboard()">
       <div class="garage-stat-top">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-        <span>TOTAL BIAYA PERAWATAN</span>
+        <span data-i18n="lbl_total_cost">TOTAL BIAYA PERAWATAN</span>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
         <div class="garage-cost-val" id="gcost-val">Rp 0</div>
@@ -596,19 +645,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     </div>
   </div>
   <div class="stats-grid">
-    <div class="stat-card"><div class="stat-label">Total pengeluaran</div><div class="stat-val" id="st-total">Rp 0</div></div>
-    <div class="stat-card"><div class="stat-label">Item jatuh tempo</div><div class="stat-val" id="st-due">0 item</div></div>
-    <div class="stat-card"><div class="stat-label">Servis tercatat</div><div class="stat-val" id="st-svc">0x</div></div>
-    <div class="stat-card"><div class="stat-label">Biaya parkir & tol</div><div class="stat-val" id="st-misc">Rp 0</div></div>
+    <div class="stat-card"><div class="stat-label" id="st-total-label" data-i18n="stat_total">Total pengeluaran</div><div class="stat-val" id="st-total">Rp 0</div></div>
+    <div class="stat-card"><div class="stat-label" id="st-due-label" data-i18n="stat_due">Item jatuh tempo</div><div class="stat-val" id="st-due">0 item</div></div>
+    <div class="stat-card"><div class="stat-label" id="st-svc-label" data-i18n="stat_svc">Servis tercatat</div><div class="stat-val" id="st-svc">0x</div></div>
+    <div class="stat-card"><div class="stat-label" id="st-misc-label" data-i18n="stat_misc">Biaya parkir & tol</div><div class="stat-val" id="st-misc">Rp 0</div></div>
   </div>
   <div class="tab-bar">
-    <div class="tab active" id="tab-p" onclick="switchTab('p')">Perawatan</div>
+    <div class="tab active" id="tab-p" onclick="switchTab('p')" data-i18n="tab_perawatan">Perawatan</div>
     <div class="tab" id="tab-e" onclick="switchTab('e')">Parkir & Tol</div>
   </div>
   <div id="pane-p">
     <div class="section">
       <div class="sec-hdr">
-        <span class="sec-title">Sesi servis</span>
+        <span class="sec-title" data-i18n="lbl_service_sessions">Sesi servis</span>
         <button class="btn-sm" onclick="openServiceSheet(null)">
           <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
           Catat servis
@@ -633,146 +682,283 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 
 <!-- HISTORY -->
 <div id="s-hist" class="screen">
-  <div class="form-screen">
-    <div class="page-title">Riwayat catatan</div>
-    <div class="hist-list" id="hist-list"></div>
+  <div class="form-screen" style="padding-bottom:100px">
+
+    <!-- Header -->
+    <div style="padding:20px 0 14px">
+      <div style="font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.5px">Riwayat</div>
+      <div style="font-size:13px;color:var(--text2);margin-top:3px" data-i18n="hist_sub">Semua catatan servis &amp; pengeluaran</div>
+    </div>
+
+    <!-- Summary strip -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
+      <div style="background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:14px;padding:11px 10px;box-shadow:var(--glass-shadow-sm);text-align:center">
+        <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px">Servis</div>
+        <div style="font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.5px" id="hist-stat-svc">0</div>
+      </div>
+      <div style="background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:14px;padding:11px 10px;box-shadow:var(--glass-shadow-sm);text-align:center">
+        <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px">Parkir&Tol</div>
+        <div style="font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.5px" id="hist-stat-misc">0</div>
+      </div>
+      <div style="background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:14px;padding:11px 10px;box-shadow:var(--glass-shadow-sm);text-align:center">
+        <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px">Total</div>
+        <div style="font-size:13px;font-weight:800;color:var(--text);letter-spacing:-.3px" id="hist-stat-total">Rp 0</div>
+      </div>
+    </div>
+
+    <!-- ── Filter bar ── -->
+    <div style="background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:16px;padding:12px 14px;margin-bottom:14px;box-shadow:var(--glass-shadow-sm)">
+
+      <!-- Search -->
+      <div style="position:relative;margin-bottom:10px">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" id="flt-search" placeholder="Cari nama item, catatan..." oninput="applyHistFilter()" style="width:100%;padding:9px 12px 9px 32px;border:1px solid var(--glass-border2);border-radius:10px;background:var(--glass-bg-strong);font-size:13px;color:var(--text);font-family:inherit;outline:none">
+      </div>
+
+      <!-- Category chips -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="flt-chip flt-chip-on" id="flt-all" onclick="setFltCat('all')">Semua</button>
+        <button class="flt-chip" id="flt-servis" onclick="setFltCat('servis')">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          Servis
+        </button>
+        <button class="flt-chip" id="flt-parkir" onclick="setFltCat('parkir')">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>
+          Parkir
+        </button>
+        <button class="flt-chip" id="flt-tol" onclick="setFltCat('tol')">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 20l4-16h10l4 16"/><path d="M11 8h2"/></svg>
+          Tol
+        </button>
+      </div>
+
+      <!-- Date range -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div>
+          <div style="font-size:10px;color:var(--text3);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">Dari</div>
+          <input type="date" id="flt-from" onchange="applyHistFilter()" style="width:100%;padding:8px 10px;border:1px solid var(--glass-border2);border-radius:9px;background:var(--glass-bg-strong);font-size:12px;color:var(--text);font-family:inherit;outline:none">
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--text3);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">Sampai</div>
+          <input type="date" id="flt-to" onchange="applyHistFilter()" style="width:100%;padding:8px 10px;border:1px solid var(--glass-border2);border-radius:9px;background:var(--glass-bg-strong);font-size:12px;color:var(--text);font-family:inherit;outline:none">
+        </div>
+      </div>
+
+      <!-- Active filter info + reset -->
+      <div id="flt-active-bar" style="display:none;margin-top:10px;display:none;align-items:center;justify-content:space-between">
+        <span id="flt-result-count" style="font-size:11px;color:var(--text2)"></span>
+        <button onclick="resetHistFilter()" style="font-size:11px;font-weight:600;color:#6C63FF;background:none;border:none;cursor:pointer;font-family:inherit;padding:2px 0">Reset filter</button>
+      </div>
+    </div>
+
+    <!-- Grouped list -->
+    <div id="hist-list"></div>
+
   </div>
 </div>
 
 <!-- SETTINGS -->
 <div id="s-set" class="screen">
-  <div class="form-screen">
-    <div class="page-title">Pengaturan</div>
+  <div class="form-screen" style="padding-bottom:100px">
 
- <!-- UPDATE BANNER -->
-     <div id="update-banner" class="update-banner">
-  <span>Versi baru tersedia</span>
-  <button onclick="reloadApp()">
-    Update
-  </button>
-</div>
+    <!-- ── Page header ── -->
+    <div style="padding:20px 0 16px;display:flex;align-items:center;justify-content:space-between">
+      <div style="font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.5px">Pengaturan</div>
+    </div>
 
-    <!-- Vehicle section -->
-    <div class="set-block">
-      <div class="set-block-title">Kendaraan</div>
+    <!-- ── Card: Kendaraan ── -->
+    <div style="background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:20px;overflow:hidden;margin-bottom:12px;box-shadow:var(--glass-shadow-sm)">
 
-      <!-- Photo picker -->
-      <div style="margin-bottom:14px">
-        <label class="form-label">Foto kendaraan</label>
-        <div style="display:flex;align-items:center;gap:12px">
-          <div id="set-photo-preview" style="width:72px;height:52px;border-radius:10px;overflow:hidden;background:var(--bg3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;border:0.5px solid var(--border2)">🚗</div>
-          <div style="flex:1">
-            <button class="btn-sm" onclick="document.getElementById('set-photo-input').click()" style="width:100%;justify-content:center;margin-bottom:6px">
-              <svg viewBox="0 0 24 24" style="width:13px;height:13px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-              Pilih foto dari galeri
+      <!-- Photo row -->
+      <div style="padding:16px 16px 0">
+        <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px" data-i18n="set_photo">Foto Kendaraan</div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+          <div id="set-photo-preview" style="width:80px;height:60px;border-radius:12px;overflow:hidden;background:var(--bg3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:28px;border:1px solid var(--glass-border2)">🚗</div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:7px">
+            <button onclick="document.getElementById('set-photo-input').click()" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 12px;border-radius:10px;border:1px solid var(--glass-border2);background:var(--glass-bg-strong);font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;transition:all .15s">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="13" height="13"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+              Pilih dari galeri
             </button>
-            <button class="btn-sm" id="set-photo-remove" onclick="removeVehiclePhoto()" style="width:100%;justify-content:center;display:none;color:var(--danger);border-color:rgba(162,45,45,.3)">
-              <svg viewBox="0 0 24 24" style="width:12px;height:12px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+            <button id="set-photo-remove" onclick="removeVehiclePhoto()" style="display:none;align-items:center;justify-content:center;gap:6px;padding:9px 12px;border-radius:10px;border:1px solid rgba(162,45,45,.25);background:var(--bg-danger);font-size:12px;font-weight:600;color:var(--danger);cursor:pointer;font-family:inherit;transition:all .15s">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="12" height="12"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
               Hapus foto
             </button>
           </div>
           <input type="file" id="set-photo-input" accept="image/*" style="display:none" onchange="handlePhotoUpload(event)">
         </div>
-        <div style="font-size:10px;color:var(--text3);margin-top:6px">Disimpan di perangkat ini. Format JPG, PNG, WEBP maks 5MB.</div>
+        <div style="font-size:10px;color:var(--text3);margin-bottom:14px" data-i18n="set_photo_hint">Disimpan di perangkat ini · JPG, PNG, WEBP maks 5MB</div>
       </div>
 
-      <!-- Name -->
-      <div class="form-group">
-        <label class="form-label">Nama kendaraan</label>
-        <input class="form-input" type="text" id="set-veh-name" placeholder="Contoh: Nissan Latio 2007" maxlength="40">
-      </div>
+      <!-- Divider -->
+      <div style="height:0.5px;background:var(--border);margin:0 16px"></div>
 
-      <!-- Plate -->
-      <div class="form-group">
-        <label class="form-label">Plat nomor <span style="font-size:10px;color:var(--text3);font-weight:400">(opsional)</span></label>
-        <input class="form-input" type="text" id="set-veh-plat" placeholder="B 1234 ABC" maxlength="12" style="text-transform:uppercase">
-      </div>
+      <!-- Fields -->
+      <div style="padding:14px 16px 0">
+        <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px" data-i18n="set_detail">Detail Kendaraan</div>
 
-      <!-- Odo -->
-      <div class="form-group">
-        <label class="form-label">Odometer saat ini (km)</label>
-        <input class="form-input" type="text" inputmode="numeric" id="odo-inp">
-      </div>
+        <!-- Name -->
+        <div style="margin-bottom:10px">
+          <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px" data-i18n="set_name">Nama kendaraan</div>
+          <input class="form-input" type="text" id="set-veh-name" placeholder="Nissan Latio 2007" maxlength="40">
+        </div>
 
-      <button class="btn-primary" onclick="saveVehicleSettings()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="vertical-align:middle;margin-right:6px;margin-top:-2px"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-        Simpan perubahan
-      </button>
-    </div>
+        <!-- Plate -->
+        <div style="margin-bottom:10px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+            <span style="font-size:11px;font-weight:600;color:var(--text2)">Plat nomor</span>
+            <span style="font-size:10px;color:var(--text3);font-style:italic">opsional</span>
+          </div>
+          <input class="form-input" type="text" id="set-veh-plat" placeholder="B 1234 ABC" maxlength="12" style="text-transform:uppercase">
+        </div>
 
-    <!-- Appearance -->
-    <div class="set-block">
-      <div class="set-block-title">Tampilan</div>
-      <div class="theme-row">
-        <div class="theme-info">
-          <span id="theme-svg-wrap"></span>
-          <div class="theme-info-text">
-            <div class="tit" id="theme-tit">Dark mode</div>
-            <div class="sub" id="theme-sub">Aktifkan tampilan gelap</div>
+        <!-- Odo -->
+        <div style="margin-bottom:16px">
+          <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px" data-i18n="set_odo">Odometer saat ini</div>
+          <div style="position:relative">
+            <input class="form-input" type="text" inputmode="numeric" id="odo-inp" style="padding-right:36px">
+            <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text3);font-weight:500;pointer-events:none">km</span>
           </div>
         </div>
-        <div class="toggle" id="theme-toggle" onclick="toggleTheme()"></div>
+      </div>
+
+      <!-- Save button inside card -->
+      <div style="padding:0 16px 16px">
+        <button class="btn-primary" onclick="saveVehicleSettings()" style="border-radius:12px">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="vertical-align:middle;margin-right:6px;margin-top:-2px"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Simpan perubahan
+        </button>
       </div>
     </div>
 
-    <!-- Data -->
-    <div class="set-block">
-      <div class="set-block-title">Data</div>
-      <button class="btn-danger" onclick="clearAll()">
-        <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
-        Hapus semua data
-      </button>
+    <!-- ── Card: Tampilan ── -->
+    <div style="background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:20px;overflow:hidden;margin-bottom:12px;box-shadow:var(--glass-shadow-sm)">
+      <div style="padding:14px 16px">
+        <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:14px" data-i18n="settings.appearance">Tampilan</div>
+
+        <!-- Dark mode row -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:38px;height:38px;background:var(--glass-bg-strong);border:1px solid var(--glass-border2);border-radius:10px;display:flex;align-items:center;justify-content:center">
+              <span id="theme-svg-wrap" style="display:flex;align-items:center;justify-content:center;color:var(--text2);width:20px;height:20px"></span>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--text)" id="theme-tit">Dark mode</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:1px" id="theme-sub">Aktifkan tampilan gelap</div>
+            </div>
+          </div>
+          <div class="toggle" id="theme-toggle" onclick="toggleTheme()"></div>
+        </div>
+
+        <!-- Divider -->
+        <div style="height:.5px;background:var(--glass-border2);margin-bottom:14px"></div>
+
+        <!-- Language row -->
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:38px;height:38px;background:var(--glass-bg-strong);border:1px solid var(--glass-border2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px">🌐</div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--text)" id="lang-label" data-i18n="set_language">Bahasa</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:1px" id="lang-sub">Pilih bahasa aplikasi</div>
+            </div>
+          </div>
+          <!-- Language toggle pill -->
+          <div style="display:flex;background:var(--glass-bg-strong);border:1px solid var(--glass-border2);border-radius:20px;padding:3px;gap:2px">
+            <button id="lang-btn-id" onclick="setLang('id')" style="padding:5px 12px;border-radius:16px;border:none;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;background:var(--dark);color:var(--dark-text)">ID</button>
+            <button id="lang-btn-en" onclick="setLang('en')" style="padding:5px 12px;border-radius:16px;border:none;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;background:transparent;color:var(--text3)">EN</button>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- ── Card: Item Perawatan ── -->
+    <div style="background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:20px;overflow:hidden;margin-bottom:12px;box-shadow:var(--glass-shadow-sm)">
+      <div style="padding:14px 16px 0">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px" data-i18n="set_maint_items">Item Perawatan</div>
+          <button onclick="openAddItemSheet()" style="display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:20px;border:1px solid var(--glass-border2);background:var(--glass-bg-strong);font-size:11px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;transition:all .15s">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="11" height="11"><path d="M12 5v14M5 12h14"/></svg>
+            <span data-i18n="set_maint_add">Tambah item</span>
+          </button>
+        </div>
+        <div id="settings-maint-list" style="display:flex;flex-direction:column;gap:0"></div>
+      </div>
+      <div style="padding:12px 16px 14px;border-top:0.5px solid var(--glass-border2);margin-top:8px">
+        <div style="font-size:11px;color:var(--text3)" data-i18n="set_maint_hint">Tap item untuk ubah nama, interval km, atau bulan. Default baru: 24 bulan / 10.000 km.</div>
+      </div>
+    </div>
+
+    <!-- ── Card: Data ── -->
+    <div style="background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:20px;overflow:hidden;margin-bottom:12px;box-shadow:var(--glass-shadow-sm)">
+      <div style="padding:14px 16px">
+        <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:14px" data-i18n="set_data">Data</div>
+        <button onclick="clearAll()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px;border-radius:12px;border:1px solid rgba(162,45,45,.25);background:var(--bg-danger);font-size:13px;font-weight:600;color:var(--danger);cursor:pointer;font-family:inherit;transition:all .15s">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          Hapus semua data
+        </button>
+      </div>
+    </div>
+
+    <!-- Version -->
+    <div style="text-align:center;font-size:11px;color:var(--text3);padding-top:8px">Dibalik Kemudi v1.0</div>
+
   </div>
 </div>
 
 <!-- SESSION DETAIL SCREEN -->
-<div id="s-sesi" class="screen">
-  <div style="background:var(--bg);padding:14px 16px 0">
-    <div style="display:flex;align-items:center;gap:10px;padding-bottom:14px;border-bottom:0.5px solid var(--border)">
-      <button class="nav-back" onclick="showScreen('home');switchTab('p')">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <div style="flex:1">
-        <div id="sesi-title" style="font-size:15px;font-weight:700;color:var(--text)">Detail Servis</div>
-        <div id="sesi-sub" style="font-size:11px;color:var(--text2);margin-top:1px"></div>
-      </div>
-      <div id="sesi-accent-dot" style="width:10px;height:10px;border-radius:50%;flex-shrink:0"></div>
+<div id="s-sesi" class="screen" style="padding-bottom:100px">
+
+  <!-- ── Header ── -->
+  <div style="padding:16px 16px 0;display:flex;align-items:center;gap:12px">
+    <button class="nav-back" onclick="showScreen('home');switchTab('p')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div style="flex:1;min-width:0">
+      <div id="sesi-title" style="font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.5px;line-height:1.2">Detail Servis</div>
+      <div id="sesi-sub" style="font-size:11px;color:var(--text3);margin-top:3px;font-weight:500"></div>
     </div>
-    <!-- Info bar -->
-    <div style="display:flex;gap:8px;padding:12px 0">
-      <div style="flex:1;background:var(--bg3);border-radius:10px;padding:10px 12px">
-        <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px">Total biaya</div>
-        <div id="sesi-cost" style="font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.5px">Rp —</div>
-      </div>
-      <div style="flex:1;background:var(--bg2);border-radius:10px;padding:10px 12px">
-        <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px">Odometer</div>
-        <div id="sesi-odo" style="font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.5px">—</div>
-      </div>
-    </div>
-    <!-- Note -->
-    <div id="sesi-note" style="display:none;background:var(--bg3);border-radius:10px;padding:9px 12px;font-size:12px;color:var(--text2);margin-bottom:12px"></div>
+    <div id="sesi-accent-dot" style="width:10px;height:10px;border-radius:50%;flex-shrink:0"></div>
   </div>
 
-  <!-- Item list -->
-  <div style="padding:14px 16px 0">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-      <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px">Item yang diservis</div>
-      <button class="btn-sm" onclick="openAddToSessionSheet()" style="font-size:11px;padding:5px 11px">
-        <svg viewBox="0 0 24 24" style="width:11px;height:11px"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+  <!-- ── Summary card ── -->
+  <div style="margin:14px 16px 0;background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:20px;overflow:hidden;box-shadow:var(--glass-shadow-sm)">
+    <div style="display:grid;grid-template-columns:1fr 1fr">
+      <div style="padding:14px 16px;border-right:0.5px solid var(--glass-border)">
+        <div style="font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px">Total biaya</div>
+        <div id="sesi-cost" style="font-size:20px;font-weight:800;color:var(--text);letter-spacing:-.5px">Rp —</div>
+      </div>
+      <div style="padding:14px 16px">
+        <div style="font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px">Odometer</div>
+        <div id="sesi-odo" style="font-size:20px;font-weight:800;color:var(--text);letter-spacing:-.5px">—</div>
+      </div>
+    </div>
+    <!-- Note row (conditionally shown) -->
+    <div id="sesi-note" style="display:none;border-top:0.5px solid var(--glass-border);padding:11px 16px;font-size:12px;color:var(--text2)"></div>
+  </div>
+
+  <!-- ── Items section ── -->
+  <div style="padding:20px 16px 0">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px" data-i18n="sesi_items">Item yang diservis</div>
+      <button onclick="openAddToSessionSheet()" style="display:flex;align-items:center;gap:5px;padding:6px 13px;background:var(--glass-bg-strong);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:20px;font-size:11px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;box-shadow:var(--glass-shadow-sm);transition:all .15s">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="11" height="11"><path d="M12 5v14M5 12h14"/></svg>
         Tambah item
       </button>
     </div>
-    <div id="sesi-item-list" style="display:flex;flex-direction:column;gap:6px"></div>
+
+    <!-- Items in one glass card with dividers -->
+    <div style="background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:20px;overflow:hidden;box-shadow:var(--glass-shadow-sm)">
+      <div id="sesi-item-list"></div>
+    </div>
   </div>
 
-  <!-- Actions -->
-  <div style="padding:16px 16px 88px;margin-top:4px">
-    <button onclick="deleteCurrentSession()" style="width:100%;background:#fff;border:1.5px solid #E24B4A;border-radius:10px;padding:14px;font-size:13px;font-weight:600;color:#A32D2D;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s">
-      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A32D2D" stroke-width="2.2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+  <!-- ── Delete button ── -->
+  <div style="padding:16px 16px 0">
+    <button onclick="deleteCurrentSession()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:transparent;border:1.5px solid rgba(162,45,45,.3);border-radius:14px;font-size:13px;font-weight:600;color:var(--danger);cursor:pointer;font-family:inherit;transition:all .15s">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
       Hapus sesi servis ini
     </button>
   </div>
+
 </div>
 
 <!-- CUSTOM DIALOG -->
@@ -791,24 +977,60 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
   <button class="nav-btn active" id="nav-garage" onclick="showScreen('garage')">
     <div class="nav-dot"></div>
     <svg viewBox="0 0 24 24"><path d="M5 12l-2 0l9-9l9 9l-2 0"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>
-    <span>Garasi</span>
+    <span data-i18n="nav_garage">Garasi</span>
   </button>
   <button class="nav-btn" id="nav-home" onclick="showScreen('home');switchTab('p')">
     <div class="nav-dot"></div>
     <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-    <span>Perawatan</span>
+    <span data-i18n="nav_home">Perawatan</span>
   </button>
+
+  <!-- FAB + center button -->
+  <div style="flex:0 0 64px;display:flex;align-items:center;justify-content:center;position:relative">
+    <button id="nav-fab" onclick="toggleQuickAdd()" style="width:48px;height:48px;border-radius:50%;background:var(--dark);color:var(--dark-text);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.25);transition:all .2s;position:relative;z-index:2" aria-label="Tambah catatan">
+      <svg id="fab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="22" height="22"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+  </div>
+
   <button class="nav-btn" id="nav-hist" onclick="showScreen('hist')">
     <div class="nav-dot"></div>
     <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"/></svg>
-    <span>Riwayat</span>
+    <span data-i18n="nav_hist">Riwayat</span>
   </button>
   <button class="nav-btn" id="nav-set" onclick="showScreen('set')">
     <div class="nav-dot"></div>
     <svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37c1 .608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
-    <span>Pengaturan</span>
+    <span data-i18n="nav_set">Pengaturan</span>
   </button>
 </nav>
+
+<!-- QUICK ADD OVERLAY -->
+<div id="quick-overlay" onclick="closeQuickAdd()" style="position:fixed;inset:0;background:rgba(0,0,0,0);pointer-events:none;z-index:48;transition:background .25s"></div>
+
+<!-- QUICK ADD ACTIONS (floats above FAB) -->
+<div id="quick-actions" style="position:fixed;bottom:calc(90px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) translateY(20px);display:flex;flex-direction:column;gap:12px;align-items:flex-end;opacity:0;pointer-events:none;z-index:49;transition:all .3s cubic-bezier(.32,.72,0,1);padding-right:calc(50% - 199px + 24px + 8px)">
+  <!-- Servis -->
+  <div style="display:flex;align-items:center;gap:10px">
+    <span style="font-size:12px;font-weight:700;color:#fff;background:rgba(0,0,0,0.35);backdrop-filter:blur(8px);padding:5px 12px;border-radius:20px;white-space:nowrap;letter-spacing:.2px;box-shadow:0 2px 8px rgba(0,0,0,0.2)" data-i18n="add_servis">Catat Servis</span>
+    <button onclick="quickAddServis()" style="width:48px;height:48px;border-radius:50%;background:rgba(108,99,255,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1.5px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;box-shadow:0 6px 20px rgba(108,99,255,0.5);flex-shrink:0;transition:transform .15s" aria-label="Catat servis">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="20" height="20"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+    </button>
+  </div>
+  <!-- Tol -->
+  <div style="display:flex;align-items:center;gap:10px">
+    <span style="font-size:12px;font-weight:700;color:#fff;background:rgba(0,0,0,0.35);backdrop-filter:blur(8px);padding:5px 12px;border-radius:20px;white-space:nowrap;letter-spacing:.2px;box-shadow:0 2px 8px rgba(0,0,0,0.2)" data-i18n="add_tol">Catat Tol</span>
+    <button onclick="quickAddTol()" style="width:48px;height:48px;border-radius:50%;background:rgba(67,197,158,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1.5px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;box-shadow:0 6px 20px rgba(67,197,158,0.5);flex-shrink:0;transition:transform .15s" aria-label="Catat tol">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="20" height="20"><path d="M3 20l4-16h10l4 16"/><path d="M11 8h2m-2.5 4h3m-3.5 4h4"/></svg>
+    </button>
+  </div>
+  <!-- Parkir -->
+  <div style="display:flex;align-items:center;gap:10px">
+    <span style="font-size:12px;font-weight:700;color:#fff;background:rgba(0,0,0,0.35);backdrop-filter:blur(8px);padding:5px 12px;border-radius:20px;white-space:nowrap;letter-spacing:.2px;box-shadow:0 2px 8px rgba(0,0,0,0.2)" data-i18n="add_parkir">Catat Parkir</span>
+    <button onclick="quickAddParkir()" style="width:48px;height:48px;border-radius:50%;background:rgba(51,170,255,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1.5px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;box-shadow:0 6px 20px rgba(51,170,255,0.5);flex-shrink:0;transition:transform .15s" aria-label="Catat parkir">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>
+    </button>
+  </div>
+</div>
 
 <!-- SERVICE SHEET — single item per submit -->
 <div class="sheet-overlay" id="svc-overlay" onclick="closeSheet('svc')"></div>
@@ -875,8 +1097,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     </div>
     <!-- App icon + name -->
     <div style="display:flex;align-items:center;gap:14px;padding:4px 0 20px">
-      <div style="width:56px;height:56px;background:#e8f5ff;border-radius:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <svg width="34" height="34" viewBox="0 0 192 192" fill="none"><path d="M185.628 114.344C181.838 132.943 172.421 149.908 158.666 162.915C144.911 175.922 127.491 184.335 108.795 187V168.381C122.603 165.905 135.414 159.496 145.705 149.916C155.997 140.335 163.337 127.986 166.852 114.335L185.628 114.344ZM25.1389 114.344C28.6147 127.839 35.8287 140.065 45.9424 149.601C56.0561 159.138 68.6541 165.592 82.2723 168.215V186.862C63.7613 184.029 46.5595 175.559 32.9861 162.592C19.4128 149.625 10.1207 132.785 6.36271 114.344H25.1389ZM150.865 86.7513V105.141H141.719C132.334 105.141 123.307 108.767 116.506 115.27C109.706 121.774 105.652 130.656 105.182 140.08L105.146 141.919V151.113H86.8543V141.919C86.8543 132.483 83.2469 123.408 76.7782 116.571C70.3095 109.734 61.4745 105.658 52.1005 105.187L50.2714 105.141H41.1256V86.7513H150.865ZM95.9908 4C143.421 4 182.418 40.2911 187 86.7513H168.599C166.383 68.9624 157.782 52.5991 144.412 40.7358C131.042 28.8726 113.823 22.326 95.9908 22.326C78.1583 22.326 60.9394 28.8726 47.5694 40.7358C34.1994 52.5991 25.5986 68.9624 23.3829 86.7513H5C9.59116 40.2911 48.5794 4 96 4" fill="#33AAFF"/></svg>
+      <div style="width:56px;height:56px;background:#e2e0ff;border-radius:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="34" height="34" viewBox="0 0 192 192" fill="none"><path d="M185.628 114.344C181.838 132.943 172.421 149.908 158.666 162.915C144.911 175.922 127.491 184.335 108.795 187V168.381C122.603 165.905 135.414 159.496 145.705 149.916C155.997 140.335 163.337 127.986 166.852 114.335L185.628 114.344ZM25.1389 114.344C28.6147 127.839 35.8287 140.065 45.9424 149.601C56.0561 159.138 68.6541 165.592 82.2723 168.215V186.862C63.7613 184.029 46.5595 175.559 32.9861 162.592C19.4128 149.625 10.1207 132.785 6.36271 114.344H25.1389ZM150.865 86.7513V105.141H141.719C132.334 105.141 123.307 108.767 116.506 115.27C109.706 121.774 105.652 130.656 105.182 140.08L105.146 141.919V151.113H86.8543V141.919C86.8543 132.483 83.2469 123.408 76.7782 116.571C70.3095 109.734 61.4745 105.658 52.1005 105.187L50.2714 105.141H41.1256V86.7513H150.865ZM95.9908 4C143.421 4 182.418 40.2911 187 86.7513H168.599C166.383 68.9624 157.782 52.5991 144.412 40.7358C131.042 28.8726 113.823 22.326 95.9908 22.326C78.1583 22.326 60.9394 28.8726 47.5694 40.7358C34.1994 52.5991 25.5986 68.9624 23.3829 86.7513H5C9.59116 40.2911 48.5794 4 96 4" fill="#6C63FF"/></svg>
       </div>
       <div>
         <div style="font-size:17px;font-weight:800;color:var(--text);letter-spacing:-.4px">Dibalik Kemudi</div>
@@ -891,7 +1113,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
       <div style="display:flex;align-items:flex-start;gap:12px">
         <div style="width:32px;height:32px;background:var(--bg2);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#33AAFF" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6C63FF" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
         </div>
         <div>
           <div style="font-size:13px;font-weight:600;color:var(--text)">Catat servis &amp; perawatan</div>
@@ -900,7 +1122,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
       </div>
       <div style="display:flex;align-items:flex-start;gap:12px">
         <div style="width:32px;height:32px;background:var(--bg2);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#33AAFF" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6C63FF" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>
         </div>
         <div>
           <div style="font-size:13px;font-weight:600;color:var(--text)">Catat parkir &amp; tol</div>
@@ -909,7 +1131,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
       </div>
       <div style="display:flex;align-items:flex-start;gap:12px">
         <div style="width:32px;height:32px;background:var(--bg2);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#33AAFF" stroke-width="2" stroke-linecap="round"><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M12 2a10 10 0 1 0 10 10"/><path d="M19.79 7.79l-2.83 2.83"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6C63FF" stroke-width="2" stroke-linecap="round"><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M12 2a10 10 0 1 0 10 10"/><path d="M19.79 7.79l-2.83 2.83"/></svg>
         </div>
         <div>
           <div style="font-size:13px;font-weight:600;color:var(--text)">Monitor odometer</div>
@@ -918,7 +1140,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
       </div>
       <div style="display:flex;align-items:flex-start;gap:12px">
         <div style="width:32px;height:32px;background:var(--bg2);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#33AAFF" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6C63FF" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </div>
         <div>
           <div style="font-size:13px;font-weight:600;color:var(--text)">Privasi terjaga</div>
@@ -928,6 +1150,70 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     </div>
     <div style="text-align:center;font-size:11px;color:var(--text3);padding-top:12px;border-top:0.5px solid var(--border)">
       Dibuat dengan ❤️ untuk para pengguna kendaraan Indonesia
+    </div>
+  </div>
+</div>
+
+<!-- MAINT ITEM EDIT SHEET -->
+<div class="sheet-overlay" id="maint-edit-overlay" onclick="closeSheet('maint-edit')"></div>
+<div class="sheet" id="maint-edit-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-inner">
+    <div class="sheet-title">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div id="mei-icon" style="width:36px;height:36px;background:var(--bg2);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--text2);flex-shrink:0"></div>
+        <div>
+          <div id="mei-title" style="font-size:15px;font-weight:700;color:var(--text)">Edit Item</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:1px">Interval pergantian</div>
+        </div>
+      </div>
+      <button class="sheet-close" onclick="closeSheet('maint-edit')"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg></button>
+    </div>
+
+    <!-- Name -->
+    <div class="form-group">
+      <label class="form-label">Nama item</label>
+      <input class="form-input" type="text" id="mei-name" placeholder="Nama item perawatan" maxlength="40">
+    </div>
+
+    <!-- Interval row -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px">
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Tiap (km)</label>
+        <div style="position:relative">
+          <input class="form-input" type="text" inputmode="numeric" id="mei-km" placeholder="—" style="padding-right:32px">
+          <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text3);pointer-events:none">km</span>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Tiap (bulan)</label>
+        <div style="position:relative">
+          <input class="form-input" type="text" inputmode="numeric" id="mei-mo" placeholder="—" style="padding-right:32px">
+          <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text3);pointer-events:none">bln</span>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--text3);margin-bottom:16px;line-height:1.5">Reminder muncul saat km <b>atau</b> bulan tercapai — mana yang duluan. Kosongkan yang tidak dipakai.</div>
+
+    <button class="btn-primary" onclick="saveMaintItemEdit()" style="border-radius:12px">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="vertical-align:middle;margin-right:6px;margin-top:-2px"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Simpan perubahan
+    </button>
+
+    <!-- Reset to default (only for non-custom) -->
+    <div id="mei-reset-row" style="margin-top:10px">
+      <button onclick="resetMaintItemToDefault()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:10px;border:1px solid var(--glass-border2);background:transparent;font-size:12px;font-weight:500;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .15s">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="13" height="13"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        Reset ke default
+      </button>
+    </div>
+
+    <!-- Delete (only for custom) -->
+    <div id="mei-delete-row" style="margin-top:8px;display:none">
+      <button onclick="deleteMaintItemFromEdit()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:10px;border:1px solid rgba(162,45,45,.25);background:var(--bg-danger);font-size:12px;font-weight:600;color:var(--danger);cursor:pointer;font-family:inherit;transition:all .15s">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="13" height="13"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+        Hapus item ini
+      </button>
     </div>
   </div>
 </div>
@@ -990,6 +1276,56 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     <button class="btn-primary" onclick="saveItemEdit()">
       <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px;margin-top:-2px"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
       Simpan
+    </button>
+  </div>
+</div>
+
+<!-- MAINT ITEM DEF EDIT SHEET -->
+<div class="sheet-overlay" id="maintdef-overlay" onclick="closeSheet('maintdef')"></div>
+<div class="sheet" id="maintdef-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-inner">
+    <div class="sheet-title">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div id="mdef-icon" style="width:36px;height:36px;background:var(--bg2);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--text2);flex-shrink:0"></div>
+        <div>
+          <div id="mdef-title" style="font-size:15px;font-weight:700;color:var(--text)">Edit Item</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:1px">Ubah nama &amp; interval servis</div>
+        </div>
+      </div>
+      <button class="sheet-close" onclick="closeSheet('maintdef')"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg></button>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Nama item</label>
+      <input class="form-input" type="text" id="mdef-name" placeholder="Contoh: Oli mesin" maxlength="40">
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Interval (km)</label>
+        <div style="position:relative">
+          <input class="form-input" type="text" inputmode="numeric" id="mdef-km" placeholder="—" style="padding-right:36px">
+          <span style="position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text3);pointer-events:none">km</span>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Interval (bulan)</label>
+        <div style="position:relative">
+          <input class="form-input" type="text" inputmode="numeric" id="mdef-mo" placeholder="—" style="padding-right:36px">
+          <span style="position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text3);pointer-events:none">bln</span>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--text3);margin-bottom:16px;line-height:1.5">Reminder muncul saat km atau waktu tercapai duluan. Kosongkan yang tidak dipakai.</div>
+
+    <button class="btn-primary" onclick="saveMaintDef()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="vertical-align:middle;margin-right:6px;margin-top:-2px"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Simpan perubahan
+    </button>
+    <button id="mdef-del-btn" onclick="deleteMaintDef()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:7px;padding:12px;border-radius:12px;border:1px solid rgba(162,45,45,.25);background:transparent;font-size:13px;font-weight:600;color:var(--danger);cursor:pointer;font-family:inherit;transition:all .15s;margin-top:10px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+      Hapus item ini
     </button>
   </div>
 </div>
@@ -1089,10 +1425,167 @@ const DEFAULT_ITEMS = [
   {id:'aki',name:'Aki',icon:'battery',km:null,mo:36,custom:false},
 ];
 
-const ACCENTS = ['#33AAFF','#FF6584','#43C59E','#F4A261','#4ECDC4','#E76F51','#A8DADC'];
+const ACCENTS = ['#6C63FF','#FF6584','#43C59E','#F4A261','#4ECDC4','#E76F51','#A8DADC'];
+
+// ─── i18n ───
+const STRINGS = {
+  id:{
+    appSub:'Perawatan & biaya kendaraan',
+    greeting_hi:'Halo,',
+    greeting_q:'Mau servis apa',
+    greeting_q2:'hari ini?',
+    nav_garage:'Garasi', nav_home:'Perawatan', nav_hist:'Riwayat', nav_set:'Pengaturan',
+    garage_title:'Dibalik Kemudi',
+    stat_total:'Total pengeluaran', stat_due:'Item jatuh tempo', stat_svc:'Servis tercatat', stat_misc:'Biaya parkir & tol',
+    set_title:'Pengaturan', set_vehicle:'Kendaraan', set_photo:'Foto Kendaraan',
+    set_photo_pick:'Pilih dari galeri', set_photo_del:'Hapus foto',
+    set_photo_hint:'Disimpan di perangkat ini · JPG, PNG, WEBP maks 5MB',
+    set_detail:'Detail Kendaraan', set_name:'Nama kendaraan', set_plat:'Plat nomor',
+    set_plat_opt:'opsional', set_odo:'Odometer saat ini', set_save:'Simpan perubahan',
+    set_display:'Tampilan', set_darkmode:'Dark mode', set_darkmode_sub:'Aktifkan tampilan gelap',
+    set_lightmode:'Light mode', set_lightmode_sub:'Aktifkan tampilan terang',
+    set_language:'Bahasa', set_language_sub:'Pilih bahasa aplikasi',
+    set_data:'Data', set_clear:'Hapus semua data',
+    hist_title:'Riwayat', hist_sub:'Semua catatan servis & pengeluaran',
+    hist_empty:'Belum ada riwayat',
+    tab_perawatan:'Perawatan', tab_parkirtol:'Parkir & Tol',
+    sesi_items:'Item yang diservis', sesi_add:'Tambah item',
+    sesi_delete:'Hapus sesi servis ini',
+    add_servis:'Catat Servis', add_tol:'Catat Tol', add_parkir:'Catat Parkir',
+    ob_empty_title:'Belum ada kendaraan',
+    ob_empty_sub:'Tambah kendaraan untuk mulai mencatat perawatan, odometer, dan biaya servisnya.',
+    ob_btn:'Tambah Kendaraan',
+    av_title:'Tambah Kendaraan', av_sub:'10 item perawatan dibuat otomatis',
+    av_type:'Jenis kendaraan', av_mobil:'Mobil', av_motor:'Motor',
+    av_detail:'Detail kendaraan', av_name:'Nama kendaraan', av_plat:'Plat nomor',
+    av_odo:'Odometer saat ini', av_odo_hint:'Dipakai untuk menghitung kapan servis berikutnya.',
+    av_btn:'Tambah Kendaraan',
+    sec_maintenance:'Perawatan', btn_catat_servis:'Catat servis', btn_tambah:'Tambah',
+    btn_add_item:'+ Item', btn_reset_filter:'Reset filter',
+    hist_stat_svc:'Servis', hist_stat_misc:'Parkir & Tol', hist_stat_total:'Total',
+    flt_search_ph:'Cari item, catatan...', flt_all:'Semua', flt_servis:'Servis', flt_parkirtol:'Parkir & Tol',
+    flt_from:'Dari', flt_to:'Sampai',
+    sesi_total:'Total biaya', sesi_odo:'Odometer',
+    sheet_items_lbl:'Item perawatan', sheet_cost_ph:'Kosongkan jika belum diketahui',
+    sheet_note_ph:'Contoh: ganti di bengkel resmi', sheet_date_lbl:'Tanggal servis',
+    sheet_odo_lbl:'Odometer (km)', sheet_session_note_ph:'Contoh: Bengkel ART',
+    sheet_catat_biaya:'Catat biaya', sheet_biaya_lbl:'Biaya (Rp)',
+    sheet_item_name_lbl:'Nama item', sheet_item_name_ph:'Contoh: Spooring & balancing',
+    sheet_km_lbl:'Tiap (km)', sheet_mo_lbl:'Tiap (bulan)',
+    sheet_item_hint:'Reminder muncul saat km atau waktu — mana yang tercapai duluan.',
+    sheet_icon_lbl:'Ikon', sheet_note_lbl:'Catatan (opsional)', sheet_cost_ph2:'Masukkan biaya penggantian',
+    sheet_type_lbl:'Jenis', exp_note_ph:'Contoh: Parkiran mall',
+    set_name_ph:'Nissan Latio 2007', set_plat_ph:'B 1234 ABC',
+    av_name_ph:'Avanza 2019 / Brio RS',
+    add_servis:'Catat Servis', add_tol:'Catat Tol', add_parkir:'Catat Parkir',
+  },
+  en:{
+    appSub:'Vehicle maintenance & expenses',
+    greeting_hi:'Hello,',
+    greeting_q:'What would you like',
+    greeting_q2:'to service today?',
+    nav_garage:'Garage', nav_home:'Service', nav_hist:'History', nav_set:'Settings',
+    garage_title:'Dibalik Kemudi',
+    stat_total:'Total expenses', stat_due:'Due items', stat_svc:'Services logged', stat_misc:'Parking & toll',
+    set_title:'Settings', set_vehicle:'Vehicle', set_photo:'Vehicle Photo',
+    set_photo_pick:'Choose from gallery', set_photo_del:'Remove photo',
+    set_photo_hint:'Stored on this device · JPG, PNG, WEBP max 5MB',
+    set_detail:'Vehicle Details', set_name:'Vehicle name', set_plat:'License plate',
+    set_plat_opt:'optional', set_odo:'Current odometer', set_save:'Save changes',
+    set_display:'Appearance', set_darkmode:'Dark mode', set_darkmode_sub:'Enable dark appearance',
+    set_lightmode:'Light mode', set_lightmode_sub:'Enable light appearance',
+    set_language:'Language', set_language_sub:'Choose app language',
+    set_data:'Data', set_clear:'Delete all data',
+    hist_title:'History', hist_sub:'All service & expense records',
+    hist_empty:'No history yet',
+    tab_perawatan:'Maintenance', tab_parkirtol:'Parking & Toll',
+    sesi_items:'Serviced items', sesi_add:'Add item',
+    sesi_delete:'Delete this service session',
+    add_servis:'Log Service', add_tol:'Log Toll', add_parkir:'Log Parking',
+    ob_empty_title:'No vehicle yet',
+    ob_empty_sub:'Add a vehicle to start tracking maintenance, odometer, and service costs.',
+    ob_btn:'Add Vehicle',
+    av_title:'Add Vehicle', av_sub:'10 maintenance items added automatically',
+    av_type:'Vehicle type', av_mobil:'Car', av_motor:'Motorcycle',
+    av_detail:'Vehicle details', av_name:'Vehicle name', av_plat:'License plate',
+    av_odo:'Current odometer', av_odo_hint:'Used to calculate when next service is due.',
+    av_btn:'Add Vehicle',
+    sec_maintenance:'Maintenance', btn_catat_servis:'Log service', btn_tambah:'Add',
+    btn_add_item:'+ Item', btn_reset_filter:'Reset filters',
+    hist_stat_svc:'Services', hist_stat_misc:'Parking & Toll', hist_stat_total:'Total',
+    flt_search_ph:'Search item, notes...', flt_all:'All', flt_servis:'Service', flt_parkirtol:'Parking & Toll',
+    flt_from:'From', flt_to:'To',
+    sesi_total:'Total cost', sesi_odo:'Odometer',
+    sheet_items_lbl:'Maintenance items', sheet_cost_ph:'Leave empty if unknown',
+    sheet_note_ph:'e.g. changed at official dealer', sheet_date_lbl:'Service date',
+    sheet_odo_lbl:'Odometer (km)', sheet_session_note_ph:'e.g. ART Workshop',
+    sheet_catat_biaya:'Log cost', sheet_biaya_lbl:'Amount (Rp)',
+    sheet_item_name_lbl:'Item name', sheet_item_name_ph:'e.g. Wheel alignment',
+    sheet_km_lbl:'Every (km)', sheet_mo_lbl:'Every (months)',
+    sheet_item_hint:'Reminder triggers at whichever comes first — km or time.',
+    sheet_icon_lbl:'Icon', sheet_note_lbl:'Notes (optional)', sheet_cost_ph2:'Enter replacement cost',
+    sheet_type_lbl:'Type', exp_note_ph:'e.g. Mall parking',
+    set_name_ph:'e.g. Toyota Avanza 2019', set_plat_ph:'B 1234 ABC',
+    av_name_ph:'e.g. Avanza 2019 / Brio RS',
+    add_servis:'Log Service', add_tol:'Log Toll', add_parkir:'Log Parking',
+  }
+};
+
+function T(key){ return (STRINGS[D.lang||'id']||STRINGS['id'])[key] || (STRINGS['id'][key]||key); }
+
+function setLang(lang){
+  D.lang = lang;
+  save();
+  applyLang();
+  updateLangButtons();
+}
+
+function updateLangButtons(){
+  const isEN = D.lang==='en';
+  const btnID = document.getElementById('lang-btn-id');
+  const btnEN = document.getElementById('lang-btn-en');
+  if(btnID){ btnID.style.background=isEN?'transparent':'var(--dark)'; btnID.style.color=isEN?'var(--text3)':'var(--dark-text)'; }
+  if(btnEN){ btnEN.style.background=isEN?'var(--dark)':'transparent'; btnEN.style.color=isEN?'var(--dark-text)':'var(--text3)'; }
+}
+
+function applyLang_OLD_SKIP(){
+  const L = lang => T(lang);
+  const s = (id,text)=>{ const el=document.getElementById(id); if(el&&text!==undefined) el.textContent=text; };
+  const q = (sel,text)=>{ const el=document.querySelector(sel); if(el&&text!==undefined) el.textContent=text; };
+  const attr = (id,attr,val)=>{ const el=document.getElementById(id); if(el&&val!==undefined) el[attr]=val; };
+
+  // Settings page
+  q('#s-set .page-title, #s-set [style*="font-size:22px"]', T('set_title'));
+  // Nav labels
+  q('#nav-garage span', T('nav_garage'));
+  q('#nav-home span', T('nav_home'));
+  q('#nav-hist span', T('nav_hist'));
+  q('#nav-set span', T('nav_set'));
+  // History
+  q('#s-hist .page-title, #s-hist [style*="font-size:22px"]', T('hist_title'));
+  // Stats
+  s('st-total-label', T('stat_total'));
+  s('st-due-label', T('stat_due'));
+  s('st-svc-label', T('stat_svc'));
+  s('st-misc-label', T('stat_misc'));
+  // Greeting
+  s('greeting-hi', T('greeting_hi'));
+  s('greeting-q', T('greeting_q'));
+  s('greeting-q2', T('greeting_q2'));
+  // Lang sub
+  s('lang-sub', T('set_language_sub'));
+  // Theme labels (re-apply from applyTheme)
+  applyTheme(D.theme||'light');
+updateLangButtons();
+  updateLangButtons();
+  // Re-render
+  renderAll();
+}
+
+
 
 // ─── State ───
-let D = {odo:190000,services:[],expenses:[],items:[],theme:'light'};
+let D = {odo:190000,services:[],expenses:[],items:[],theme:'light',lang:'id'};
 let selSvc = [], expType = 'parkir', costOn = true, selIcon = 'wrench';
 let currentSheetItemId = null; // for maint item delete via service sheet
 let currentSessionId = null;   // session detail page
@@ -1182,35 +1675,199 @@ function renderExp(){
   if(!list) return;
   const items = [...D.expenses].sort((a,b)=>new Date(b.date)-new Date(a.date));
   if(!items.length){ list.innerHTML='<div class="empty"><span class="empty-icon">🧾</span>Belum ada catatan parkir atau tol</div>'; return; }
-  list.innerHTML = items.map(e=>`<div class="exp-item">
-    <div class="exp-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">${e.type==='parkir'?'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/>':'<path d="M3 20l4-16h10l4 16"/><path d="M11 8h2m-2.5 4h3m-3.5 4h4"/>'}</svg></div>
-    <div class="exp-info">
-      <div class="exp-name">${e.type==='parkir'?'Parkir':'Tol'}${e.note?' — '+e.note:''}</div>
-      <div class="exp-date">${new Date(e.date).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}</div>
-    </div>
-    <div class="exp-amt">${fmt(e.cost)}</div>
-    <button class="del-btn" onclick="delExp('${e.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg></button>
-  </div>`).join('');
+  // Group by month
+  const MONTHS=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const groups={},order=[];
+  items.forEach(e=>{
+    const d=new Date(e.date),key=`${d.getFullYear()}-${d.getMonth()}`;
+    const label=`${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+    if(!groups[key]){groups[key]={label,items:[]};order.push(key);}
+    groups[key].items.push(e);
+  });
+
+  list.innerHTML = order.map(key=>{
+    const g=groups[key];
+    const groupTotal=g.items.reduce((s,e)=>s+(e.cost||0),0);
+    const rows=g.items.map((e,idx)=>{
+      const divider=idx>0?`<div style="height:.5px;background:var(--glass-border2);margin:0 0 0 52px"></div>`:'';
+      const ico=e.type==='parkir'
+        ?'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/>'
+        :'<path d="M3 20l4-16h10l4 16"/><path d="M11 8h2m-2.5 4h3m-3.5 4h4"/>';
+      const iconColor=e.type==='parkir'?'#6C63FF':'#43C59E';
+      const iconBg=e.type==='parkir'?'rgba(108,99,255,0.1)':'rgba(67,197,158,0.12)';
+      return `${divider}
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 14px">
+          <div style="width:36px;height:36px;border-radius:10px;background:${iconBg};display:flex;align-items:center;justify-content:center;flex-shrink:0;color:${iconColor}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="16" height="16">${ico}</svg>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e.type==='parkir'?'Parkir':'Tol'}${e.note?' · '+e.note:''}</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px">${new Date(e.date).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}</div>
+          </div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);flex-shrink:0;margin-right:6px">${fmt(e.cost)}</div>
+          <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
+            <button onclick="openEditExp('${e.id}')" style="background:var(--glass-bg-strong);border:1px solid var(--glass-border2);border-radius:8px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);transition:all .15s" title="Edit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="13" height="13"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+            <button onclick="confirmDelExp('${e.id}','${e.type==='parkir'?'Parkir':'Tol'}','${(e.note||'').replace(/'/g,"\'")}','${fmt(e.cost)}')" style="background:var(--bg-danger);border:1px solid rgba(162,45,45,.2);border-radius:8px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--danger);transition:all .15s" title="Hapus">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="13" height="13"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+            </button>
+          </div>
+        </div>`;
+    }).join('');
+
+    return `<div style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding:0 2px">
+        <div style="font-size:12px;font-weight:700;color:var(--text2)">${g.label}</div>
+        <div style="font-size:11px;color:var(--text3)">${fmt(groupTotal)}</div>
+      </div>
+      <div style="background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:18px;overflow:hidden;box-shadow:var(--glass-shadow-sm)">
+        ${rows}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── History filter state ───
+let _fltCat = 'all'; // 'all' | 'servis' | 'parkir' | 'tol'
+
+function setFltCat(cat){
+  _fltCat = cat;
+  ['all','servis','parkir','tol'].forEach(k=>{
+    const el = document.getElementById('flt-'+k);
+    if(el) el.className = 'flt-chip' + (k===cat?' flt-chip-on':'');
+  });
+  applyHistFilter();
+}
+
+function applyHistFilter(){ renderHist(); }
+
+function resetHistFilter(){
+  _fltCat = 'all';
+  ['all','servis','parkir','tol'].forEach(k=>{
+    const el = document.getElementById('flt-'+k);
+    if(el) el.className = 'flt-chip' + (k==='all'?' flt-chip-on':'');
+  });
+  const fs = document.getElementById('flt-search'); if(fs) fs.value='';
+  const ff = document.getElementById('flt-from'); if(ff) ff.value='';
+  const ft = document.getElementById('flt-to'); if(ft) ft.value='';
+  renderHist();
 }
 
 // ─── Render: History ───
 function renderHist(){
   const list = document.getElementById('hist-list');
   if(!list) return;
-  const all = [...D.services.map(s=>({...s,_t:'servis'})), ...D.expenses.map(e=>({...e,_t:e.type}))].sort((a,b)=>new Date(b.date)-new Date(a.date));
-  if(!all.length){ list.innerHTML='<div class="empty"><span class="empty-icon">🕐</span>Belum ada riwayat</div>'; return; }
-  list.innerHTML = all.map(r=>{
-    if(r._t==='servis'){
-      const nm = r.items.map(id=>getAllItems().find(m=>m.id===id)?.name||id).join(', ');
-      const cost = r.itemDetails ? r.items.reduce((s,id)=>s+(r.itemDetails?.[id]?.cost||0),0) : (r.cost||0);
-      return `<div class="hist-item">
-        <div class="hist-row1"><span class="hist-name">${nm}</span><span class="hist-cost">${cost?fmt(cost):'—'}</span></div>
-        <div class="hist-row2"><span class="hist-meta"><span class="badge b-servis">Servis</span>${new Date(r.date).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}</span><span class="hist-odo">${r.odo?fmtKm(r.odo):''}</span></div>
+
+  // Get filter values
+  const searchQ = (document.getElementById('flt-search')?.value||'').toLowerCase().trim();
+  const fromDate = document.getElementById('flt-from')?.value||'';
+  const toDate = document.getElementById('flt-to')?.value||'';
+
+  let all = [...D.services.map(s=>({...s,_t:'servis'})), ...D.expenses.map(e=>({...e,_t:e.type}))].sort((a,b)=>new Date(b.date)-new Date(a.date));
+
+  // Update summary stats (always from full data)
+  const svcCount = D.services.length;
+  const miscCount = D.expenses.length;
+  const totalCost = D.services.reduce((s,r)=>{ const c=r.itemDetails?r.items.reduce((x,id)=>x+(r.itemDetails?.[id]?.cost||0),0):(r.cost||0); return s+c; },0) + D.expenses.reduce((s,e)=>s+(e.cost||0),0);
+  const hs = document.getElementById('hist-stat-svc'); if(hs) hs.textContent=svcCount+'x';
+  const hm = document.getElementById('hist-stat-misc'); if(hm) hm.textContent=miscCount+'x';
+  const ht = document.getElementById('hist-stat-total'); if(ht) ht.textContent=fmt(totalCost);
+
+  // Apply filters
+  if(_fltCat !== 'all') all = all.filter(r=>r._t===_fltCat);
+  if(fromDate) all = all.filter(r=>r.date>=fromDate);
+  if(toDate) all = all.filter(r=>r.date<=toDate);
+  if(searchQ){
+    all = all.filter(r=>{
+      if(r._t==='servis'){
+        const nm = r.items.map(id=>getAllItems().find(m=>m.id===id)?.name||id).join(' ').toLowerCase();
+        const note = (r.note||'').toLowerCase();
+        return nm.includes(searchQ)||note.includes(searchQ);
+      }
+      const nm = (r._t==='parkir'?'parkir':'tol') + ' ' + (r.note||'');
+      return nm.toLowerCase().includes(searchQ);
+    });
+  }
+
+  // Show/hide active bar
+  const hasFilter = _fltCat!=='all'||fromDate||toDate||searchQ;
+  const bar = document.getElementById('flt-active-bar');
+  if(bar){
+    bar.style.display = hasFilter?'flex':'none';
+    const cnt = document.getElementById('flt-result-count');
+    if(cnt) cnt.textContent = `${all.length} hasil ditemukan`;
+  }
+
+  if(!all.length){
+    list.innerHTML='<div class="empty" style="padding:32px 0;text-align:center"><span style="font-size:32px;display:block;margin-bottom:10px;opacity:.4">'+(hasFilter?'🔍':'🕐')+'</span><span style="font-size:13px;color:var(--text3)">'+(hasFilter?'Tidak ada hasil yang cocok':'Belum ada riwayat')+'</span></div>';
+    return;
+  }
+
+  // Group by month-year
+  const groups={}, order=[];
+  const MONTHS=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  all.forEach(r=>{
+    const d=new Date(r.date), key=`${d.getFullYear()}-${d.getMonth()}`;
+    const label=`${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+    if(!groups[key]){groups[key]={label,items:[]};order.push(key);}
+    groups[key].items.push(r);
+  });
+
+  list.innerHTML = order.map(key=>{
+    const g = groups[key];
+    const groupTotal = g.items.reduce((s,r)=>{
+      if(r._t==='servis') return s+(r.itemDetails?r.items.reduce((x,id)=>x+(r.itemDetails?.[id]?.cost||0),0):(r.cost||0));
+      return s+(r.cost||0);
+    },0);
+
+    const rows = g.items.map(r=>{
+      if(r._t==='servis'){
+        const nm = r.items.map(id=>getAllItems().find(m=>m.id===id)?.name||id).join(' · ');
+        const cost = r.itemDetails?r.items.reduce((s,id)=>s+(r.itemDetails?.[id]?.cost||0),0):(r.cost||0);
+        const d = new Date(r.date);
+        return `<div class="rh-row" onclick="openSesiDetail('${r.id}')">
+          <div class="rh-icon-wrap rh-icon-servis">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <div class="rh-info">
+            <div class="rh-name">${nm}</div>
+            <div class="rh-sub">${d.getDate()} ${MONTHS[d.getMonth()].slice(0,3)} · ${r.odo?fmtKm(r.odo):'—'}</div>
+          </div>
+          <div class="rh-right">
+            <div class="rh-cost">${cost?fmt(cost):'—'}</div>
+            <div class="rh-badge rh-badge-servis">Servis</div>
+          </div>
+        </div>`;
+      }
+      const d = new Date(r.date);
+      const isParkir = r._t==='parkir';
+      return `<div class="rh-row">
+        <div class="rh-icon-wrap ${isParkir?'rh-icon-parkir':'rh-icon-tol'}">
+          ${isParkir
+            ? '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>'
+            : '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 20l4-16h10l4 16"/><path d="M11 8h2m-2.5 4h3"/></svg>'
+          }
+        </div>
+        <div class="rh-info">
+          <div class="rh-name">${isParkir?'Parkir':'Tol'}${r.note?' · '+r.note:''}</div>
+          <div class="rh-sub">${d.getDate()} ${MONTHS[d.getMonth()].slice(0,3)}</div>
+        </div>
+        <div class="rh-right">
+          <div class="rh-cost">${fmt(r.cost)}</div>
+          <div class="rh-badge ${isParkir?'rh-badge-parkir':'rh-badge-tol'}">${isParkir?'Parkir':'Tol'}</div>
+        </div>
       </div>`;
-    }
-    return `<div class="hist-item">
-      <div class="hist-row1"><span class="hist-name">${r._t==='parkir'?'Parkir':'Tol'}${r.note?' — '+r.note:''}</span><span class="hist-cost">${fmt(r.cost)}</span></div>
-      <div class="hist-row2"><span class="hist-meta"><span class="badge ${r._t==='parkir'?'b-parkir':'b-tol'}">${r._t}</span>${new Date(r.date).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}</span><span class="hist-odo">—</span></div>
+    }).join('<div style="height:.5px;background:var(--glass-border2);margin:0 0 0 52px"></div>');
+
+    return `<div style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding:0 2px">
+        <div style="font-size:12px;font-weight:700;color:var(--text2)">${g.label}</div>
+        <div style="font-size:11px;color:var(--text3);font-weight:500">${groupTotal?fmt(groupTotal):''}</div>
+      </div>
+      <div style="background:var(--glass-bg);backdrop-filter:var(--glass-blur-sm);-webkit-backdrop-filter:var(--glass-blur-sm);border:1px solid var(--glass-border);border-radius:18px;overflow:hidden;box-shadow:var(--glass-shadow-sm)">
+        ${rows}
+      </div>
     </div>`;
   }).join('');
 }
@@ -1367,14 +2024,15 @@ function openSesiDetail(id){
   else { noteEl.style.display='none'; }
 
   // Item rows — each tappable to edit cost/note
-  document.getElementById('sesi-item-list').innerHTML = svc.items.map(itemId=>{
+  document.getElementById('sesi-item-list').innerHTML = svc.items.map((itemId, idx)=>{
     const it = allItems.find(m=>m.id===itemId)||{name:itemId,icon:'wrench'};
     const det = svc.itemDetails?.[itemId]||{};
     const iCost = det.cost ? fmt(det.cost) : '';
     const iNote = det.note||'';
-    return `<div class="sesi-item-card">
+    const divider = idx > 0 ? `<div style="height:0.5px;background:var(--glass-border2);margin:0 0 0 58px"></div>` : '';
+    return `${divider}<div class="sesi-item-card" style="border:none;border-radius:0;box-shadow:none;background:transparent;backdrop-filter:none;padding:13px 14px">
       <div class="sesi-item-left" onclick="openItemEditSheet('${svc.id}','${itemId}')" style="cursor:pointer">
-        <div class="sesi-item-ico" style="border-left:3px solid ${accent}">${svgFor(it.icon,16)}</div>
+        <div class="sesi-item-ico" style="border-left:3px solid ${accent};background:var(--glass-bg-strong)">${svgFor(it.icon,16)}</div>
         <div class="sesi-item-info">
           <div class="sesi-item-name">${it.name}</div>
           ${iNote?`<div class="sesi-item-note">📝 ${iNote}</div>`:''}
@@ -1383,7 +2041,7 @@ function openSesiDetail(id){
       </div>
       <div class="sesi-item-right">
         ${iCost?`<span class="sesi-item-cost" onclick="openItemEditSheet('${svc.id}','${itemId}')" style="cursor:pointer">${iCost}</span>`:''}
-        <button onclick="deleteItemFromSession('${svc.id}','${itemId}')" style="background:none;border:none;padding:4px;cursor:pointer;color:var(--text3);display:flex;align-items:center;border-radius:6px" title="Hapus item">
+        <button onclick="deleteItemFromSession('${svc.id}','${itemId}')" style="background:none;border:none;padding:5px;cursor:pointer;color:var(--text3);display:flex;align-items:center;border-radius:6px;margin-left:2px" title="Hapus item">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
         </button>
       </div>
@@ -1602,12 +2260,18 @@ function saveNewItem(){
 
 // ─── Expense sheet ───
 function openExpSheet(){
+  _editExpId = null;
   expType='parkir';
   document.getElementById('chip-pkr').className='chip on';
   document.getElementById('chip-tol').className='chip';
   document.getElementById('exp-date').value=today();
   document.getElementById('exp-cost').value='';
   document.getElementById('exp-note').value='';
+  // Reset sheet title
+  const titleNode = document.querySelector('#exp-sheet .sheet-title');
+  if(titleNode) titleNode.childNodes[0].textContent = 'Tambah pengeluaran';
+  const btn = document.querySelector('#exp-sheet .btn-primary');
+  if(btn) btn.innerHTML = btn.innerHTML.replace('Simpan perubahan','Simpan');
   openSheet('exp');
 }
 function selExpType(t){
@@ -1616,10 +2280,41 @@ function selExpType(t){
   document.getElementById('chip-tol').className='chip '+(t==='tol'?'on':'');
 }
 function saveExp(){
-  D.expenses.push({id:Date.now().toString(),type:expType,date:document.getElementById('exp-date').value,cost:getNumVal('exp-cost'),note:document.getElementById('exp-note').value});
+  const data = {type:expType, date:document.getElementById('exp-date').value, cost:getNumVal('exp-cost'), note:document.getElementById('exp-note').value.trim()};
+  if(_editExpId){
+    const idx = D.expenses.findIndex(e=>e.id===_editExpId);
+    if(idx>=0) D.expenses[idx] = {...D.expenses[idx], ...data};
+    _editExpId = null;
+  } else {
+    D.expenses.push({id:Date.now().toString(),...data});
+  }
   save(); closeSheet('exp'); renderAll();
 }
 function delExp(id){ D.expenses=D.expenses.filter(e=>e.id!==id); save(); renderAll(); }
+
+function confirmDelExp(id, type, note, cost){
+  const label = type + (note?' · '+note:'');
+  dlgConfirm('Hapus catatan ini?', label+'\n'+cost, 'Hapus', 'danger', ()=>delExp(id));
+}
+
+let _editExpId = null;
+function openEditExp(id){
+  const e = D.expenses.find(x=>x.id===id);
+  if(!e) return;
+  _editExpId = id;
+  // Reuse exp sheet but in edit mode
+  document.querySelector('#exp-sheet .sheet-title').childNodes[0].textContent = 'Edit pengeluaran';
+  document.getElementById('chip-pkr').className = 'chip '+(e.type==='parkir'?'on':'');
+  document.getElementById('chip-tol').className = 'chip '+(e.type==='tol'?'on':'');
+  expType = e.type;
+  document.getElementById('exp-date').value = e.date;
+  setNumVal('exp-cost', e.cost);
+  document.getElementById('exp-note').value = e.note||'';
+  // Change save button text
+  const btn = document.querySelector('#exp-sheet .btn-primary');
+  if(btn) btn.innerHTML = btn.innerHTML.replace('Simpan','Simpan perubahan');
+  openSheet('exp');
+}
 
 // ─── Settings ───
 function updateOdo(){
@@ -1673,6 +2368,82 @@ function dlgConfirm(title, msg, confirmLabel, style, onConfirm){
 }
 
 
+// ─── FAB Quick Add ───
+let _qaOpen = false;
+
+function toggleQuickAdd(){
+  _qaOpen ? closeQuickAdd() : openQuickAdd();
+}
+
+function openQuickAdd(){
+  _qaOpen = true;
+  const overlay = document.getElementById('quick-overlay');
+  const actions = document.getElementById('quick-actions');
+  const icon = document.getElementById('fab-icon');
+  const fab = document.getElementById('nav-fab');
+  overlay.style.background = 'rgba(0,0,0,0.35)';
+  overlay.style.pointerEvents = 'all';
+  actions.style.opacity = '1';
+  actions.style.transform = 'translateX(-50%) translateY(0)';
+  actions.style.pointerEvents = 'all';
+  // Rotate + to ×
+  icon.innerHTML = '<path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>';
+  fab.style.background = '#E24B4A';
+  fab.style.transform = 'rotate(0deg) scale(1.05)';
+}
+
+function closeQuickAdd(){
+  _qaOpen = false;
+  const overlay = document.getElementById('quick-overlay');
+  const actions = document.getElementById('quick-actions');
+  const icon = document.getElementById('fab-icon');
+  const fab = document.getElementById('nav-fab');
+  overlay.style.background = 'rgba(0,0,0,0)';
+  overlay.style.pointerEvents = 'none';
+  actions.style.opacity = '0';
+  actions.style.transform = 'translateX(-50%) translateY(20px)';
+  actions.style.pointerEvents = 'none';
+  // Back to +
+  icon.innerHTML = '<path d="M12 5v14M5 12h14" stroke-linecap="round"/>';
+  fab.style.background = 'var(--dark)';
+  fab.style.transform = 'rotate(0deg) scale(1)';
+}
+
+function quickAddServis(){
+  closeQuickAdd();
+  // Navigate to home/perawatan first
+  showScreen('home'); switchTab('p');
+  setTimeout(()=>openServiceSheet(null), 80);
+}
+
+function quickAddParkir(){
+  closeQuickAdd();
+  expType = 'parkir';
+  document.getElementById('chip-pkr').className = 'chip on';
+  document.getElementById('chip-tol').className = 'chip';
+  document.getElementById('exp-date').value = today();
+  document.getElementById('exp-cost').value = '';
+  document.getElementById('exp-note').value = '';
+  _editExpId = null;
+  const titleNode = document.querySelector('#exp-sheet .sheet-title');
+  if(titleNode) titleNode.childNodes[0].textContent = 'Catat Parkir';
+  openSheet('exp');
+}
+
+function quickAddTol(){
+  closeQuickAdd();
+  expType = 'tol';
+  document.getElementById('chip-pkr').className = 'chip';
+  document.getElementById('chip-tol').className = 'chip on';
+  document.getElementById('exp-date').value = today();
+  document.getElementById('exp-cost').value = '';
+  document.getElementById('exp-note').value = '';
+  _editExpId = null;
+  const titleNode = document.querySelector('#exp-sheet .sheet-title');
+  if(titleNode) titleNode.childNodes[0].textContent = 'Catat Tol';
+  openSheet('exp');
+}
+
 function openSheet(id){
   document.getElementById(id+'-overlay').classList.add('open');
   document.getElementById(id+'-sheet').classList.add('open');
@@ -1682,18 +2453,23 @@ function closeSheet(id){
   document.getElementById(id+'-overlay').classList.remove('open');
   document.getElementById(id+'-sheet').classList.remove('open');
   document.body.style.overflow='';
+  closeQuickAdd();
 }
 
 // ─── Theme ───
-const SUN_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
-const MOON_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+const SUN_SVG='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+const MOON_SVG='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
 function applyTheme(t){
   document.documentElement.setAttribute('data-theme',t);
   D.theme=t;
   const isDark=t==='dark';
   const wrap=document.getElementById('theme-svg-wrap'); if(wrap) wrap.innerHTML=isDark?SUN_SVG:MOON_SVG;
-  const tit=document.getElementById('theme-tit'); if(tit) tit.textContent=isDark?'Light mode':'Dark mode';
-  const sub=document.getElementById('theme-sub'); if(sub) sub.textContent=isDark?'Aktifkan tampilan terang':'Aktifkan tampilan gelap';
+  const tit=document.getElementById('theme-tit');
+  const sub=document.getElementById('theme-sub');
+  const lang=D.lang||'id';
+  const S=STRINGS[lang]||STRINGS['id'];
+  if(tit) tit.textContent=isDark?(S.set_lightmode||'Light mode'):(S.set_darkmode||'Dark mode');
+  if(sub) sub.textContent=isDark?(S.set_lightmode_sub||'Aktifkan tampilan terang'):(S.set_darkmode_sub||'Aktifkan tampilan gelap');
   const tog=document.getElementById('theme-toggle'); if(tog) tog.className='toggle '+(isDark?'on':'');
 }
 function toggleTheme(){ applyTheme(D.theme==='dark'?'light':'dark'); save(); }
@@ -1817,25 +2593,11 @@ function saveVehicleSettings(){
   dlgAlert('Perubahan disimpan ✓');
 }
 
-// ─── ShowUpdateBanner ───
-
-function showUpdateBanner(){
-
-  document
-    .getElementById('update-banner')
-    .style.display = 'flex';
-
-}
-
-function reloadApp(){
-
-  window.location.reload();
-
-}
 
 // ─── Init ───
 load();
 applyTheme(D.theme||'light');
+updateLangButtons();
 if(!D.items||!D.items.length) D.items=JSON.parse(JSON.stringify(DEFAULT_ITEMS));
 setNumVal('odo-inp', D.odo);
 setupNumInput('svc-odo');
@@ -1857,53 +2619,29 @@ if(!D.vehicle){
 loadSettingsScreen();
 </script>
 <script>
-
-if ('serviceWorker' in navigator) {
-
-  window.addEventListener('load', async () => {
-
-    const registration =
-      await navigator.serviceWorker.register('./sw.js');
-
-    console.log('SW Registered');
-
-    registration.addEventListener('updatefound', () => {
-
-      const newWorker = registration.installing;
-
-      newWorker.addEventListener('statechange', () => {
-
-        if (
-          newWorker.state === 'installed' &&
-          navigator.serviceWorker.controller
-        ) {
-
-          window.newWorker = newWorker;
-
-          const banner =
-            document.getElementById('update-banner');
-
-          if(banner){
-            banner.style.display = 'flex';
-          }
-
-        }
-
-      });
-
-    });
-
+if ("serviceWorker" in navigator && !location.hostname.includes('claudeusercontent')) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("Service Worker Registered"))
+      .catch((err) => console.log("SW Error:", err));
   });
-
 }
-
-navigator.serviceWorker?.addEventListener(
-  'controllerchange',
-  () => {
-    window.location.reload();
-  }
-);
-
 </script>
 </body>
 </html>
+<script>
+function applyLang(){
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key=el.getAttribute("data-i18n"),val=T(key);
+    if(val&&val!==key)el.textContent=val;
+  });
+  const s=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  s("greeting-hi",T("greeting_hi"));
+  s("greeting-q",T("greeting_q"));
+  s("greeting-q2",T("greeting_q2"));
+  s("lang-sub",T("set_language_sub"));
+  applyTheme(D.theme||"light");
+  updateLangButtons();
+  renderAll();
+}
+</script>
